@@ -1,1 +1,8 @@
-<p>login works!</p>
+<section class="login-form__wrapper">
+  <app-auth-form (submit)="loginUser($event)">
+    <h1>Login</h1>
+
+    <button>Login</button>
+    <a routerLink="/auth/register">Don't have an account?</a>
+  </app-auth-form>
+</section>

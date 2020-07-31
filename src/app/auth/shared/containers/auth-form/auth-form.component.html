@@ -1,1 +1,41 @@
-<p>auth-form works!</p>
+<section class="auth-form">
+  <form [formGroup]="authForm" (ngSubmit)="onFormSubmit($event)">
+
+    <ng-content select="h1"></ng-content>
+
+    <fieldset>
+      <label for="email">
+        Email
+        <input id="email" type="email" placeholder="Email address" formControlName="email">
+      </label>
+      <p class="error" *ngIf="getFieldRequired('email')">
+        Email field is required.
+      </p>
+      <p class="error" *ngIf="getFieldInvalidInput('email', 'email')">
+        Invalid email provided.
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <label for="password">
+        Password
+        <input id="password" type="password" placeholder="Enter password" formControlName="password">
+      </label>
+      <p class="error" *ngIf="getFieldRequired('password')">
+        Password field is required.
+      </p>
+      <p class="error" *ngIf="getFieldInvalidInput('password', 'minlength')">
+        Password must be at least 3 characters long.
+      </p>
+    </fieldset>
+
+    <fieldset class="auth-form__action">
+      <ng-content select="button"></ng-content>
+    </fieldset>
+
+    <fieldset class="auth-form__toggle">
+      <ng-content select="a"></ng-content>
+    </fieldset>
+
+  </form>
+</section>

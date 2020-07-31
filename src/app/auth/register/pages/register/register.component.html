@@ -1,1 +1,8 @@
-<p>register works!</p>
+<section class="register-form__wrapper">
+  <app-auth-form (submit)="registerUser($event)">
+    <h1>Register</h1>
+
+    <button>Register account</button>
+    <a routerLink="/auth/login">Already a member?</a>
+  </app-auth-form>
+</section>
