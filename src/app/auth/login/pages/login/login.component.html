@@ -1,8 +1,12 @@
 <section class="login-form__wrapper">
-  <app-auth-form (submit)="loginUser($event)">
+  <app-auth-form (submitted)="loginUser($event)">
     <h1>Login</h1>
 
     <button>Login</button>
     <a routerLink="/auth/register">Don't have an account?</a>
+
+    <p class="error" *ngIf="authErrorMessage">
+      {{ authErrorMessage }}
+    </p>
   </app-auth-form>
 </section>

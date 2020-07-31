@@ -1,4 +1,4 @@
-export interface Configuration {
+export interface FirebaseConfiguration {
   apiKey: string;
   authDomain: string;
   databaseURL: string;

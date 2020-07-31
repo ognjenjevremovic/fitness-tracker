@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
@@ -6,12 +6,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class AuthFormComponent {
+  @ContentChild('.error')
+  authFormError: HTMLParagraphElement;
 
   @Output()
-  public readonly submit: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  public readonly submitted: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   public readonly authForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -27,7 +29,7 @@ export class AuthFormComponent {
     event.stopPropagation();
 
     if (this.authForm.valid) {
-      this.submit.emit(this.authForm);
+      this.submitted.emit(this.authForm);
     }
   }
 
@@ -37,7 +39,6 @@ export class AuthFormComponent {
   }
 
   public getFieldInvalidInput(field: string, validation: string): boolean {
-    console.log(this.authForm.get('password').errors);
     return this.authForm.get(field).hasError(validation)
       && this.authForm.get(field).touched;
   }
