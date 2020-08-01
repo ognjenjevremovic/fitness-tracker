@@ -22,7 +22,7 @@ export class AuthService {
         }
         const { uid, email } = user;
         this.store.set('user', new PlatformUser(uid, email, true));
-        return EMPTY;
+        return this.store.select<PlatformUser>('user');
       })
     );
 
