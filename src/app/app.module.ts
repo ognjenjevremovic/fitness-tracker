@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { Store } from './store/app.store';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppNavComponent } from './components/app-nav/app-nav.component';
+import { FitnessModule } from './fitness/fitness.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AppNavComponent } from './components/app-nav/app-nav.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    FitnessModule,
   ],
   providers: [
     { provide: Store, useFactory: () => new Store() }
