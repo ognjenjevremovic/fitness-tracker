@@ -9,7 +9,7 @@ import { AuthService } from '../../../shared/services/auth/auth.service';
 
 
 @Component({
-  selector: 'app-register',
+  selector: 'ft-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })

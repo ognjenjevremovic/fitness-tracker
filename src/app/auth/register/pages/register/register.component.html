@@ -1,5 +1,5 @@
 <section class="register-form__wrapper">
-  <app-auth-form (submitted)="registerUser($event)">
+  <ft-auth-form (submitted)="registerUser($event)">
     <h1>Register</h1>
 
     <button>Register account</button>
@@ -8,5 +8,5 @@
     <p class="error" *ngIf="authErrorMessage">
       {{ authErrorMessage }}
     </p>
-  </app-auth-form>
+  </ft-auth-form>
 </section>

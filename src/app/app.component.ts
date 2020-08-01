@@ -5,7 +5,7 @@ import { AuthService } from './auth/shared/services/auth/auth.service';
 import { Store } from './store/app.store';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ft-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

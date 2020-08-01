@@ -9,7 +9,7 @@ import { AuthService } from '../../../shared/services/auth/auth.service';
 
 
 @Component({
-  selector: 'app-login',
+  selector: 'ft-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
