@@ -1,4 +1,6 @@
-<h1>{{ user$ | async | json }}</h1>
+<ft-app-header [user]="user$ | async" (logout)="onLogout()"></ft-app-header>
+<ft-app-nav *ngIf="(user$ | async)?.authenticated"></ft-app-nav>
+
 <main class="wrapper">
   <router-outlet></router-outlet>
 </main>

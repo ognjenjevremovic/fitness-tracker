@@ -1,0 +1,8 @@
+<header class="app-header">
+  <div class="wrapper">
+    <img src="assets/img/logo.svg">
+    <section *ngIf="user?.authenticated" class="app-header__user-info">
+      <a (click)="logoutUser($event)"></a>
+    </section>
+  </div>
+</header>

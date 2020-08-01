@@ -42,4 +42,8 @@ export class AuthService {
   ): Promise<UserCredential> {
     return this.auth.createUserWithEmailAndPassword(email, password);
   }
+
+  public logoutUser(): Promise<void> {
+    return this.auth.signOut();
+  }
 }
