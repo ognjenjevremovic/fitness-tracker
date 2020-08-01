@@ -16,12 +16,10 @@ export class AuthService {
   public readonly authState$: Observable<PlatformUser | null> = this.auth.authState
     .pipe(
       switchMap((user: User | null) => {
-        if (!user) {
-          this.store.set('user', null);
-          return EMPTY;
-        }
-        const { uid, email } = user;
-        this.store.set('user', new PlatformUser(uid, email, true));
+        const platformUser: PlatformUser = !!user
+          ? new PlatformUser(user.uid, user.email, true)
+          : null;
+        this.store.set('user', platformUser);
         return this.store.select<PlatformUser>('user');
       })
     );
