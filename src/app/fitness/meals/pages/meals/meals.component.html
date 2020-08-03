@@ -17,7 +17,10 @@
     </section>
 
     <section *ngIf="meals.length">
-      <ft-list-item *ngFor="let meal of meals" [item]="meal"></ft-list-item>
+      <ft-list-item *ngFor="let meal of meals"
+        [item]="meal"
+        (remove)="onMealRemove($event)">
+      </ft-list-item>
     </section>
   </div>
 

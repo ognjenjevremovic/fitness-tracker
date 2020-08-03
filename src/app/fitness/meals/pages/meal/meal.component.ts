@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { defer } from 'rxjs';
 
 import { Meal } from '../../../shared/models/meal.model';
+import { MealsService } from '../../../shared/services/meals/meals.service';
 
 
 @Component({
@@ -10,10 +13,14 @@ import { Meal } from '../../../shared/models/meal.model';
 })
 export class MealComponent {
 
-  constructor() { }
+  constructor(
+    private readonly router: Router,
+    private readonly mealService: MealsService,
+  ) { }
 
-  addMeal(meal: Meal): void {
-    console.log(meal);
+  public async addMeal(meal: Meal): Promise<void> {
+    await this.mealService.addMeal(meal);
+    await this.router.navigate(['meals']);
   }
 
 }

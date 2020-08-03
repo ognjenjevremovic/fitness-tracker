@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '../../../../store/app.store';
 
 import { Meal } from '../../../shared/models/meal.model';
 import { MealsService } from '../../../shared/services/meals/meals.service';
+import { Store } from '../../../../store/app.store';
 
 
 @Component({
@@ -28,5 +29,9 @@ export class MealsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  async onMealRemove(meal: Meal): Promise<void> {
+    await this.mealsService.removeMeal(meal);
   }
 }
