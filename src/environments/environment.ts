@@ -9,7 +9,7 @@ export const environment: Environment = {
   firebaseConfiguration: {
     apiKey: 'AIzaSyB3aODijGWS8RNgMO5Cst7JHw4Jin5i6zQ',
     authDomain: 'fitness-tracker-379b9.firebaseapp.com',
-    databaseURL: 'http://localhost:8080/',
+    databaseURL: 'localhost:8080',
     projectId: 'fitness-tracker-379b9',
     storageBucket: 'fitness-tracker-379b9.appspot.com',
     messagingSenderId: '389131834444',
