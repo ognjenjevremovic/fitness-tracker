@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from 'firebase';
-import { EMPTY, Observable } from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
+import { User } from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 
 import { AuthCredentials } from '../../models/auth.model';
@@ -13,6 +14,11 @@ import { PlatformUser } from '../../models/user.model';
 
 @Injectable()
 export class AuthService {
+
+  public get currentUser$(): Observable<PlatformUser> {
+    return this.authState$;
+  }
+
   public readonly authState$: Observable<PlatformUser | null> = this.auth.authState
     .pipe(
       switchMap((user: User | null) => {
