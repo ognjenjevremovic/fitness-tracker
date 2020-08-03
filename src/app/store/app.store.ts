@@ -14,7 +14,7 @@ export interface State {
 
 const initialAppState: State = {
   user: null,
-  meals: []
+  meals: null
 };
 
 @Injectable()
