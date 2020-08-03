@@ -1,25 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-  	
+
     //	Users requests
-    match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
     }
 
 		//	Schedule requests
-    match /schedule/{uid} {
-    	allow read, write: if request.auth != null && request.auth.uid == uid;
+    match /schedule/{scheduleId} {
+    	allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
     }
-    
+
     //	Meals requests
-    match /meals/{uid} {
-    	allow read, write: if request.auth != null && request.auth.uid == uid;
+    match /meals/{mealId} {
+    	allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
     }
-    
+
     //	Workouts requests
-    match /workouts/{uid} {
-    	allow read, write: if request.auth != null && request.auth.uid == uid;
+    match /workouts/{workoutId} {
+    	allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
     }
   }
 }
