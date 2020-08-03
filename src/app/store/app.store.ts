@@ -3,15 +3,18 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, pluck } from 'rxjs/operators';
 
 import { PlatformUser } from '../auth/shared/models/user.model';
+import { Meal } from '../fitness/shared/models/meal.model';
 
 
 export interface State {
   user: PlatformUser;
+  meals: Meal[];
   [key: string]: any;
 }
 
 const initialAppState: State = {
   user: null,
+  meals: []
 };
 
 @Injectable()

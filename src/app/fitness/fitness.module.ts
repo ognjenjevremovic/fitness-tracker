@@ -5,6 +5,7 @@ import { FitnessRoutingModule } from './fitness-routing.module';
 
 import { MealsModule } from './meals/meals.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { SharedModule } from './shared/shared.module';
 import { WorkoutsModule } from './workouts/workouts.module';
 
 
@@ -13,6 +14,7 @@ import { WorkoutsModule } from './workouts/workouts.module';
   imports: [
     CommonModule,
     FitnessRoutingModule,
+    SharedModule.forRoot(),
     MealsModule,
     ScheduleModule,
     WorkoutsModule
