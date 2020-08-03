@@ -4,22 +4,30 @@ service cloud.firestore {
 
     //	Users requests
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow read: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow delete, update: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.uid;
     }
 
 		//	Schedule requests
     match /schedule/{scheduleId} {
-    	allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
+    	allow read: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow delete, update: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.uid;
     }
 
     //	Meals requests
     match /meals/{mealId} {
-    	allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow read: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow delete, update: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.uid;
     }
 
     //	Workouts requests
     match /workouts/{workoutId} {
-    	allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
+    	allow read: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow delete, update: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.uid;
     }
   }
 }
