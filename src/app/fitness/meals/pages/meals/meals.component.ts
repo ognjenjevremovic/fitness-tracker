@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { Store } from '../../../../store/app.store';
 
 import { Meal } from '../../../shared/models/meal.model';
 import { MealsService } from '../../../shared/services/meals/meals.service';
@@ -16,12 +17,13 @@ export class MealsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    private readonly mealsService: MealsService
+    private readonly mealsService: MealsService,
+    private readonly store: Store
   ) {/** */}
 
   ngOnInit(): void {
-    this.subscription = this.mealsService.mealState$.subscribe();
-    this.meals$ = this.mealsService.meals$;
+    this.subscription = this.mealsService.meals$.subscribe();
+    this.meals$ = this.store.select<Meal[]>('meals');
   }
 
   ngOnDestroy(): void {

@@ -4,7 +4,6 @@ import { Router, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Store } from '../../../store/app.store';
 import { AuthService } from '../services/auth/auth.service';
 
 

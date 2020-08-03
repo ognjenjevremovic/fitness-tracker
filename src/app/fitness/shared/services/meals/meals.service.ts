@@ -13,11 +13,7 @@ import { Store } from '../../../../store/app.store';
 @Injectable()
 export class MealsService {
 
-  public get meals$(): Observable<Meal[]> {
-    return this.store.select<Meal[]>('meals');
-  }
-
-  public readonly mealState$: Observable<Meal[]> = this.authService.currentUser$
+  public readonly meals$: Observable<Meal[]> = this.authService.currentUser$
     .pipe(
       filter(Boolean),
       switchMap((user: PlatformUser) =>

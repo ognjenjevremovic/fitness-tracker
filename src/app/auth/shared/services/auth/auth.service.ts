@@ -15,11 +15,11 @@ import { PlatformUser } from '../../models/user.model';
 @Injectable()
 export class AuthService {
 
-  public get currentUser$(): Observable<PlatformUser> {
-    return this.authState$;
+  public get currentUser$(): Observable<User> {
+    return this.auth.authState;
   }
 
-  public readonly authState$: Observable<PlatformUser | null> = this.auth.authState
+  public readonly auth$: Observable<PlatformUser | null> = this.auth.authState
     .pipe(
       map((user: User | null) =>
         !!user ? new PlatformUser(user.uid, user.email, true) : null

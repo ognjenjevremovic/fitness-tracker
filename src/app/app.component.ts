@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { PlatformUser } from './auth/shared/models/user.model';
 import { AuthService } from './auth/shared/services/auth/auth.service';
+import { Store } from './store/app.store';
 
 
 @Component({
@@ -19,12 +20,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly store: Store,
+    private readonly authService: AuthService,
   ) {/** */}
 
   ngOnInit(): void {
-    this._subscription = this.authService.authState$.subscribe();
-    this.user$ = this.authService.currentUser$;
+    this._subscription = this.authService.auth$.subscribe();
+    this.user$ = this.store.select<PlatformUser>('user');
   }
 
   ngOnDestroy(): void {
