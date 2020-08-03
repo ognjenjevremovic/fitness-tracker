@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { AuthService } from '../../../../auth/shared/services/auth/auth.service';
 import { Meal} from '../../models/meal.model';
@@ -30,7 +30,7 @@ export class MealsService {
           .valueChanges(),
       ),
       switchMap((meals: Meal[] = []) => {
-        this.store.set('meals', meals);
+        this.store.set('meals', meals || []);
         return this.store.select<Meal[]>('meals');
       }),
     );
