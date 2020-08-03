@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { Meal } from '../../../shared/models/meal.model';
+
 
 @Component({
   selector: 'ft-meal',
   templateUrl: './meal.component.html',
   styleUrls: ['./meal.component.scss']
 })
-export class MealComponent implements OnInit {
+export class MealComponent {
 
   constructor() { }
 
-  ngOnInit(): void {
+  addMeal(meal: Meal): void {
+    console.log(meal);
   }
 
 }
