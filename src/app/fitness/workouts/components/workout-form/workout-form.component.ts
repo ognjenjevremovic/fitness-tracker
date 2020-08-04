@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { Workout } from '../../../shared/models/workout.model';
+import { Workout, WorkoutType } from '../../../shared/models/workout.model';
 
 
 @Component({
   selector: 'ft-workout-form',
   templateUrl: './workout-form.component.html',
-  styleUrls: ['./workout-form.component.scss']
+  styleUrls: ['./workout-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkoutFormComponent implements OnChanges {
 
@@ -26,7 +27,8 @@ export class WorkoutFormComponent implements OnChanges {
   public editingWorkout: boolean;
 
   public readonly workoutForm = this.fb.group({
-    name: this.fb.control('', [Validators.required])
+    name: this.fb.control('', [Validators.required]),
+    type: this.fb.control(WorkoutType.ENDURANCE, [Validators.required]),
   });
 
   public get workoutNameRequired(): boolean {

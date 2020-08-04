@@ -12,6 +12,11 @@
       </p>
     </fieldset>
 
+    <fieldset>
+      {{ workoutForm.value | json }}
+      <ft-workout-type formControlName="type"></ft-workout-type>
+    </fieldset>
+
     <fieldset class="workout-form__submit">
       <div>
         <!-- Add new workout -->
