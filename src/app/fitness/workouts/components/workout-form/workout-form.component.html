@@ -1,0 +1,45 @@
+<section class="workout-form">
+  <form [formGroup]="workoutForm">
+
+    <fieldset class="workout-form__name">
+      <label>
+        <h3>Workouts</h3>
+        <input type="text" placeholder="e.g Dumbbell press" class="" formControlName="name">
+      </label>
+
+      <p class="error" *ngIf="workoutNameRequired">
+        Workout name is required.
+      </p>
+    </fieldset>
+
+    <fieldset class="workout-form__submit">
+      <div>
+        <!-- Add new workout -->
+        <button
+          type="button" class="button"
+          *ngIf="!editingWorkout"
+          (click)="createWorkout($event)">Add workout</button>
+
+        <!-- Update existing workout -->
+        <button type="button" class="button"
+          *ngIf="editingWorkout"
+          (click)="updateWorkout($event)">Update workout</button>
+
+        <!-- Navigate back to workouts and discard the changes -->
+        <a class="button button--cancel" routerLink="/workouts">Cancel</a>
+      </div>
+
+      <!-- Remove workout -->
+      <div>
+        <ft-remove-item *ngIf="editingWorkout" (remove)="deleteWorkout()"
+          (toggleActions)="toggleActions.toggle()"
+          [showRemoveActions]="toggleActions.showRemoveActions">
+
+          <button type="button" class="button button--delete"
+            ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">Delete</button>
+        </ft-remove-item>
+      </div>
+    </fieldset>
+
+  </form>
+</section>
