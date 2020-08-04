@@ -1,29 +1,25 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Store } from '../../../store/app.store';
-import { PlatformUser } from '../models/user.model';
+import { AuthService } from '../services/auth/auth.service';
 
 
 @Injectable()
-export class AuthGuard implements CanLoad {
+export class AuthGuard implements CanActivate {
 
   constructor(
     private readonly router: Router,
-    private readonly store: Store,
+    private readonly authService: AuthService
   ) {/** */}
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.store.select<PlatformUser>('user')
+  canActivate(): Observable<boolean> {
+    return this.authService.currentUser$
       .pipe(
         map(user => {
-          if (!!user) {
+          if (!user) {
             this.router.navigate(['auth', 'login']);
           }
           return !!user;

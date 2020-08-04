@@ -2,7 +2,7 @@
   <ft-auth-form (submitted)="registerUser($event)">
     <h1>Register</h1>
 
-    <button>Register account</button>
+    <button type="submit">Register account</button>
     <a routerLink="/auth/login">Already a member?</a>
 
     <p class="error" *ngIf="authErrorMessage">

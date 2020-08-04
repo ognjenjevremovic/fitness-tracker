@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from 'firebase';
-import { EMPTY, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import { User } from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 
 import { AuthCredentials } from '../../models/auth.model';
@@ -13,16 +14,19 @@ import { PlatformUser } from '../../models/user.model';
 
 @Injectable()
 export class AuthService {
-  public readonly authState$: Observable<PlatformUser | null> = this.auth.authState
+
+  public get currentUser$(): Observable<User> {
+    return this.auth.authState;
+  }
+
+  public readonly auth$: Observable<PlatformUser | null> = this.auth.authState
     .pipe(
-      switchMap((user: User | null) => {
-        if (!user) {
-          this.store.set('user', null);
-          return EMPTY;
-        }
-        const { uid, email } = user;
-        this.store.set('user', new PlatformUser(uid, email, true));
-        return EMPTY;
+      map((user: User | null) =>
+        !!user ? new PlatformUser(user.uid, user.email, true) : null
+      ),
+      switchMap((user: PlatformUser | null) => {
+        this.store.set('user', user);
+        return this.store.select<PlatformUser>('user');
       })
     );
 

@@ -24,10 +24,9 @@ export class LoginComponent {
   public async loginUser({ value: credentials }: FormGroup): Promise<boolean | void> {
     try {
       await this.authService.loginUser(credentials as AuthCredentials);
-      return this.router.navigate(['/']);
+      await this.router.navigate(['/']);
     } catch (authError) {
       this.authErrorMessage = (authError as AuthError).message;
     }
   }
-
 }

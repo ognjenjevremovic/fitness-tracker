@@ -1,0 +1,17 @@
+<section class="list-item">
+  <a [routerLink]="['/meals', item.id]">
+    <p class="list-item__name">{{ item.name }}</p>
+    <p class="list-item__ingredients">{{ item.ingredients }}</p>
+  </a>
+
+  <ft-remove-item
+    (remove)="removeMeal()"
+    (toggleActions)="toggleActions.toggle()"
+    [showRemoveActions]="toggleActions.showRemoveActions">
+
+    <button type="button" class="trash"
+      ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">
+      <img src="assets/img/remove.svg" />
+    </button>
+  </ft-remove-item>
+</section>
