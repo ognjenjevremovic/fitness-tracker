@@ -14,8 +14,6 @@ export class MealFormComponent implements OnChanges {
   @Input()
   public readonly meal: Meal;
 
-  public editingMeal = false;
-
   @Output()
   public readonly create: EventEmitter<Meal> = new EventEmitter<Meal>();
 
@@ -23,7 +21,9 @@ export class MealFormComponent implements OnChanges {
   public readonly update: EventEmitter<Meal> = new EventEmitter<Meal>();
 
   @Output()
-  public readonly remove: EventEmitter<void> = new EventEmitter<void>();
+  public readonly delete: EventEmitter<void> = new EventEmitter<void>();
+
+  public editingMeal = false;
 
   public readonly mealForm = this.fb.group({
     name: ['', Validators.required],
@@ -93,8 +93,8 @@ export class MealFormComponent implements OnChanges {
     }
   }
 
-  public removeMeal(): void {
-    this.remove.emit();
+  public deleteMeal(): void {
+    this.delete.emit();
   }
 
   private emptyMealIngredients(): void {

@@ -8,6 +8,7 @@ import { MealsService } from './services/meals/meals.service';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { RemoveItemComponent } from './components/remove-item/remove-item.component';
 import { ToggleRemoveActionsDirective } from './directives/toggle-remove-actions/toggle-remove-actions.directive';
+import { WorkoutsService } from './services/workouts/workouts.service';
 
 
 @NgModule({
@@ -18,13 +19,18 @@ import { ToggleRemoveActionsDirective } from './directives/toggle-remove-actions
     ReactiveFormsModule,
     AngularFirestoreModule
   ],
-  exports: [ListItemComponent, RemoveItemComponent, ToggleRemoveActionsDirective]
+  exports: [
+    ListItemComponent,
+    RemoveItemComponent,
+    ToggleRemoveActionsDirective,
+    ReactiveFormsModule
+  ]
 })
 export class SharedModule {
   public static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-      providers: [MealsService]
+      providers: [MealsService, WorkoutsService]
     };
   }
 }

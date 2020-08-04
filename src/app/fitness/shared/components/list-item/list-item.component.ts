@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Meal } from '../../models/meal.model';
+import { Workout } from '../../models/workout.model';
 
 
 @Component({
@@ -11,12 +12,22 @@ import { Meal } from '../../models/meal.model';
 })
 export class ListItemComponent {
   @Input()
-  item: Meal;
+  item: Meal | Workout;
 
   @Output()
-  remove: EventEmitter<Meal> = new EventEmitter<Meal>();
+  public readonly remove: EventEmitter<Meal | Workout> = new EventEmitter<Meal | Workout>();
 
-  removeMeal(): void {
+  @Output()
+  public readonly navigate: EventEmitter<void> = new EventEmitter<void>();
+
+  public removeItem(): void {
     this.remove.emit(this.item);
+  }
+
+  public navigateToItemDetails(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.navigate.emit();
   }
 }
