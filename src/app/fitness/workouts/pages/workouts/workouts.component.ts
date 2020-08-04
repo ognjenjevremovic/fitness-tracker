@@ -35,6 +35,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   public async navigateToWorkoutDetails(workout: Workout): Promise<void> {
+    console.log('navigating to', workout.id);
     await this.router.navigate(['workouts', workout.id]);
   }
 

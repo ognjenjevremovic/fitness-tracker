@@ -31,7 +31,7 @@ export class WorkoutsService {
           .valueChanges({ idField: 'id' })
       ),
       shareReplay(),
-      tap((workouts) => this.store.set('workouts', workouts))
+      tap((workouts) => this.store.set('workouts', workouts || []))
     );
 
   constructor(
@@ -46,6 +46,7 @@ export class WorkoutsService {
     }
     return this.store.select<Workout[]>('workouts')
       .pipe(
+        filter(Boolean),
         map(
           (workouts: Workout[]) =>
             workouts.find(workout => workout.id === workoutId)
