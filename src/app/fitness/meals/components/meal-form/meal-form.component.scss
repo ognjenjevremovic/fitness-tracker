@@ -105,9 +105,17 @@
     }
   }
   &__submit {
-    display: flex;
     justify-content: space-between;
     padding: 30px;
+
+    > * {
+      display: inline-flex;
+      width: 50%;
+
+      &:last-child {
+        flex-direction: row-reverse;
+      }
+    }
   }
   h1 {
     flex-grow: 1;

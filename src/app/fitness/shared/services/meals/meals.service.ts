@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 
-import { defer, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 import * as firebase from 'firebase';
 import Timestamp = firebase.firestore.Timestamp;
@@ -30,6 +30,7 @@ export class MealsService {
           )
           .valueChanges({ idField: 'id' }),
       ),
+      shareReplay(),
       tap((meals: Meal[] = []) => {
         this.store.set('meals', meals || []);
       }),
@@ -40,6 +41,19 @@ export class MealsService {
     private readonly db: AngularFirestore,
     private readonly authService: AuthService,
   ) {/** */}
+
+  getMealById(mealId: Meal['id']): Observable<Meal> {
+    if (!mealId) {
+      return of({} as Meal);
+    }
+    return this.store.select<Meal[]>('meals')
+      .pipe(
+        filter(Boolean),
+        map(
+          (meals: Meal[]) => meals.find(meal => meal.id === mealId)
+        )
+      );
+  }
 
   addMeal(meal: Meal): Promise<DocumentReference> {
     return this.store.select<PlatformUser>('user')
@@ -53,8 +67,19 @@ export class MealsService {
       ).toPromise();
   }
 
-  removeMeal(meal: Meal): Promise<void> {
-    return this.db.collection('meals').doc(meal.id).delete();
+  editMeal(mealId: string, meal: Meal): Promise<void> {
+    return this.db.collection<Meal>('meals')
+      .doc<Meal>(mealId)
+      .set({
+        ...meal,
+        lastEdit: Timestamp.now()
+      }, {
+        merge: true
+      });
+  }
+
+  removeMeal(mealId: Meal['id']): Promise<void> {
+    return this.db.collection<Meal>('meals').doc(mealId).delete();
   }
 
 }

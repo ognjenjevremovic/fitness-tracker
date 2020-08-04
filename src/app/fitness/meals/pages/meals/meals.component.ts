@@ -31,7 +31,7 @@ export class MealsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  async onMealRemove(meal: Meal): Promise<void> {
-    await this.mealsService.removeMeal(meal);
+  async onMealRemove({ id: mealId }: Meal): Promise<void> {
+    await this.mealsService.removeMeal(mealId);
   }
 }

@@ -9,4 +9,5 @@ export interface Meal {
   readonly ingredients: string[];
   readonly timestamp: Timestamp;
   readonly uid: PlatformUser['uid'];
+  readonly lastEdit?: Timestamp;
 }

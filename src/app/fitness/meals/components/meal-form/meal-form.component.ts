@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { Meal } from '../../../shared/models/meal.model';
@@ -10,15 +10,26 @@ import { Meal } from '../../../shared/models/meal.model';
   styleUrls: ['./meal-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MealFormComponent {
+export class MealFormComponent implements OnChanges {
+  @Input()
+  public readonly meal: Meal;
+
+  public editingMeal = false;
+
   @Output()
   public readonly create: EventEmitter<Meal> = new EventEmitter<Meal>();
+
+  @Output()
+  public readonly update: EventEmitter<Meal> = new EventEmitter<Meal>();
+
+  @Output()
+  public readonly remove: EventEmitter<void> = new EventEmitter<void>();
 
   public readonly mealForm = this.fb.group({
     name: ['', Validators.required],
     ingredients: this.fb.array([
-      new FormControl('', [Validators.required])
-    ])
+      this.mealIngredientFormControl(),
+    ]),
   });
 
   public get ingredients(): FormArray {
@@ -33,8 +44,20 @@ export class MealFormComponent {
   }
 
   constructor(
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {/** */}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.meal && !!Object.keys(this.meal).length) {
+      this.editingMeal = true;
+      this.emptyMealIngredients();
+      this.mealForm.patchValue(this.meal);
+
+      for (const ingredient of this.meal.ingredients) {
+        this.ingredients.push(this.mealIngredientFormControl(ingredient));
+      }
+    }
+  }
 
 
   public ingredientNameRequired(controlIndex: number): boolean {
@@ -45,7 +68,7 @@ export class MealFormComponent {
   }
 
   public addIngredient(): void {
-    this.ingredients.push(new FormControl('', [Validators.required]));
+    this.ingredients.push(this.mealIngredientFormControl());
   }
 
   public removeIngredient(controlIndex: number): void {
@@ -59,6 +82,29 @@ export class MealFormComponent {
     if (this.mealForm.valid) {
       this.create.emit(this.mealForm.value);
     }
+  }
+
+  public updateMeal(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.mealForm.valid) {
+      this.update.emit(this.mealForm.value);
+    }
+  }
+
+  public removeMeal(): void {
+    this.remove.emit();
+  }
+
+  private emptyMealIngredients(): void {
+    while (this.ingredients.length) {
+      this.ingredients.removeAt(0);
+    }
+  }
+
+  private mealIngredientFormControl(ingredient: string = ''): FormControl {
+    return new FormControl(ingredient, [Validators.required]);
   }
 
 }

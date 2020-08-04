@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { defer } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { iif, Observable, Subscription } from 'rxjs';
+import { shareReplay, switchMap } from 'rxjs/operators';
+import { Store } from '../../../../store/app.store';
 
 import { Meal } from '../../../shared/models/meal.model';
 import { MealsService } from '../../../shared/services/meals/meals.service';
@@ -11,10 +13,14 @@ import { MealsService } from '../../../shared/services/meals/meals.service';
   templateUrl: './meal.component.html',
   styleUrls: ['./meal.component.scss']
 })
-export class MealComponent {
+export class MealComponent implements OnInit, OnDestroy {
+  public meal$: Observable<Meal>;
+  private _subscription: Subscription;
 
   constructor(
+    private readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly store: Store,
     private readonly mealService: MealsService,
   ) { }
 
@@ -22,5 +28,29 @@ export class MealComponent {
     await this.mealService.addMeal(meal);
     await this.router.navigate(['meals']);
   }
+
+  public async editMeal(meal: Meal): Promise<void> {
+    await this.mealService.editMeal(this.route.snapshot.paramMap.get('id'), meal);
+    await this.router.navigate(['meals']);
+  }
+
+  public async removeMeal(): Promise<void> {
+    await this.mealService.removeMeal(this.route.snapshot.paramMap.get('id'));
+    await this.router.navigate(['meals']);
+  }
+
+  ngOnInit(): void {
+    this._subscription = this.mealService.meals$.subscribe();
+    this.meal$ = this.route.params
+      .pipe(
+        switchMap(({ id: mealId }) => this.mealService.getMealById(mealId)),
+        shareReplay()
+      );
+  }
+
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
+
 
 }

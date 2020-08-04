@@ -6,6 +6,7 @@
         <h3>Meal name:</h3>
         <input type="text" placeholder="e.g. English breakfast" formControlName="name">
       </label>
+
       <p class="error" *ngIf="mealNameRequired">
         Meal name is required.
       </p>
@@ -27,6 +28,7 @@
         <label *ngFor="let control of ingredients.controls; index as controlIndex">
           <input type="text" placeholder="e.g. Bacon" [formControlName]="controlIndex">
           <span class="meal-form__remove" (click)="removeIngredient(controlIndex)"></span>
+
           <p class="error" *ngIf="ingredientNameRequired(controlIndex)">
             Meal name is required.
           </p>
@@ -36,8 +38,30 @@
 
     <fieldset class="meal-form__submit">
       <div>
-        <button type="button" class="button" (click)="createMeal($event)">Add meal</button>
+        <!-- Add new meal -->
+        <button
+          type="button" class="button"
+          *ngIf="!editingMeal"
+          (click)="createMeal($event)">Add meal</button>
+
+        <!-- Update existing meal -->
+        <button type="button" class="button"
+          *ngIf="editingMeal"
+          (click)="updateMeal($event)">Update meal</button>
+
+        <!-- Navigate back to meals and discard the changes -->
         <a class="button button--cancel" routerLink="/meals">Cancel</a>
+      </div>
+
+      <!-- Remove meal -->
+      <div>
+        <ft-remove-item *ngIf="editingMeal" (remove)="removeMeal()"
+          (toggleActions)="toggleActions.toggle()"
+          [showRemoveActions]="toggleActions.showRemoveActions">
+
+          <button type="button" class="button button--delete"
+            ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">Delete</button>
+        </ft-remove-item>
       </div>
     </fieldset>
   </form>

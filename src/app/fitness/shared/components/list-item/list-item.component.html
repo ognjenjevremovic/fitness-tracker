@@ -4,17 +4,14 @@
     <p class="list-item__ingredients">{{ item.ingredients }}</p>
   </a>
 
-  <section class="list-item__delete" *ngIf="showDelete">
-    <p>Remove the meal?</p>
-    <button type="button" class="confirm" (click)="removeMeal($event)">
-      Yes
-    </button>
-    <button type="button" class="cancel" (click)="toggleDelete($event)">
-      No
-    </button>
-  </section>
+  <ft-remove-item
+    (remove)="removeMeal()"
+    (toggleActions)="toggleActions.toggle()"
+    [showRemoveActions]="toggleActions.showRemoveActions">
 
-  <button type="button" class="trash" (click)="toggleDelete($event)">
-    <img src="assets/img/remove.svg" />
-  </button>
+    <button type="button" class="trash"
+      ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">
+      <img src="assets/img/remove.svg" />
+    </button>
+  </ft-remove-item>
 </section>
