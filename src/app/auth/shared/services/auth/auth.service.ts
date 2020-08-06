@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { User } from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
@@ -19,17 +19,16 @@ export class AuthService {
     return this.auth.authState
       .pipe(
         map((user: User | null) =>
-          !!user ? new PlatformUser(user.uid, user.email, true) : null
+          !!user ?
+            new PlatformUser(user.uid, user.email, true)
+            : null
         )
       );
   }
 
   public readonly auth$: Observable<PlatformUser | null> = this.currentUser$
     .pipe(
-      switchMap((user: PlatformUser | null) => {
-        this.store.set('user', user);
-        return this.store.select<PlatformUser>('user');
-      })
+      tap((user: PlatformUser | null) => this.store.set('user', user))
     );
 
   constructor(
