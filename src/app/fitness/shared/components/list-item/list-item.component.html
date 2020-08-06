@@ -1,11 +1,14 @@
 <section class="list-item">
-  <a [routerLink]="['/meals', item.id]">
+
+  <a (click)="navigateToItemDetails($event)">
     <p class="list-item__name">{{ item.name }}</p>
-    <p class="list-item__ingredients">{{ item.ingredients }}</p>
+    <p class="list-item__subtitle">
+      <ng-content></ng-content>
+    </p>
   </a>
 
   <ft-remove-item
-    (remove)="removeMeal()"
+    (remove)="removeItem()"
     (toggleActions)="toggleActions.toggle()"
     [showRemoveActions]="toggleActions.showRemoveActions">
 

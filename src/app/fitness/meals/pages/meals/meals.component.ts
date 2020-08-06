@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -14,24 +15,30 @@ import { Store } from '../../../../store/app.store';
 })
 export class MealsComponent implements OnInit, OnDestroy {
 
-  meals$: Observable<Meal[]>;
-  subscription: Subscription;
+  private _subscription: Subscription;
+
+  public meals$: Observable<Meal[]>;
 
   constructor(
+    private readonly router: Router,
     private readonly mealsService: MealsService,
     private readonly store: Store
   ) {/** */}
 
   ngOnInit(): void {
-    this.subscription = this.mealsService.meals$.subscribe();
+    this._subscription = this.mealsService.meals$.subscribe();
     this.meals$ = this.store.select<Meal[]>('meals');
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this._subscription.unsubscribe();
   }
 
-  async onMealRemove({ id: mealId }: Meal): Promise<void> {
+  public async navigateToMealDetails(meal: Meal): Promise<void> {
+    await this.router.navigate(['meals', meal.id]);
+  }
+
+  public async onMealRemove({ id: mealId }: Meal): Promise<void> {
     await this.mealsService.removeMeal(mealId);
   }
 }

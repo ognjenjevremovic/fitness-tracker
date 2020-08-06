@@ -1,0 +1,83 @@
+<section class="workout-form">
+  <form [formGroup]="workoutForm">
+
+    <fieldset class="workout-form__name">
+      <label>
+        <h3>Workouts</h3>
+        <input type="text" [placeholder]="workoutNamePlaceholder" class="" formControlName="name">
+      </label>
+
+      <p class="error" *ngIf="workoutNameRequired">
+        Workout name is required.
+      </p>
+    </fieldset>
+
+    <fieldset class="workout-form__type">
+      <label>
+        <h3>Type</h3>
+        <ft-workout-type formControlName="type"></ft-workout-type>
+      </label>
+    </fieldset>
+
+    <fieldset class="workout-form__details">
+      <div class="workout-form__fields" formGroupName="strength" *ngIf="ofTypeStrength">
+        <label>
+          <h3>Reps</h3>
+          <input type="number" formControlName="reps">
+        </label>
+
+        <label>
+          <h3>Sets</h3>
+          <input type="number" formControlName="sets">
+        </label>
+
+        <label>
+          <h3>Weight <span>(kg)</span></h3>
+          <input type="number" formControlName="weight">
+        </label>
+      </div>
+
+      <div class="workout-form__fields" formGroupName="endurance" *ngIf="ofTypeEndurance">
+        <label>
+          <h3>Distance <span>(km)</span></h3>
+          <input type="number" formControlName="distance">
+        </label>
+
+        <label>
+          <h3>Duration <span>(min)</span></h3>
+          <input type="number" formControlName="duration">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="workout-form__submit">
+      <div>
+        <!-- Add new workout -->
+        <button
+          type="button" class="button"
+          *ngIf="!editingWorkout"
+          (click)="createWorkout($event)">Add workout</button>
+
+        <!-- Update existing workout -->
+        <button type="button" class="button"
+          *ngIf="editingWorkout"
+          (click)="updateWorkout($event)">Update workout</button>
+
+        <!-- Navigate back to workouts and discard the changes -->
+        <a class="button button--cancel" routerLink="/workouts">Cancel</a>
+      </div>
+
+      <!-- Remove workout -->
+      <div>
+        <ft-remove-item *ngIf="editingWorkout" (remove)="deleteWorkout()"
+          (toggleActions)="toggleActions.toggle()"
+          [showRemoveActions]="toggleActions.showRemoveActions">
+
+          <button type="button" class="button button--delete"
+            ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">Delete</button>
+        </ft-remove-item>
+      </div>
+    </fieldset>
+
+  </form>
+</section>

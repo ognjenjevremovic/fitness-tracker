@@ -20,7 +20,7 @@ export class MealsService {
 
   public readonly meals$: Observable<Meal[]> = this.authService.currentUser$
     .pipe(
-      filter(Boolean),
+      filter<PlatformUser>(Boolean),
       switchMap((user: PlatformUser) =>
         this.db
           .collection<Meal>(
@@ -31,9 +31,7 @@ export class MealsService {
           .valueChanges({ idField: 'id' }),
       ),
       shareReplay(),
-      tap((meals: Meal[] = []) => {
-        this.store.set('meals', meals || []);
-      }),
+      tap((meals: Meal[] = []) => this.store.set('meals', meals || [])),
     );
 
   constructor(
@@ -42,7 +40,7 @@ export class MealsService {
     private readonly authService: AuthService,
   ) {/** */}
 
-  getMealById(mealId: Meal['id']): Observable<Meal> {
+  public getMealById(mealId: Meal['id']): Observable<Meal> {
     if (!mealId) {
       return of({} as Meal);
     }
@@ -50,12 +48,13 @@ export class MealsService {
       .pipe(
         filter(Boolean),
         map(
-          (meals: Meal[]) => meals.find(meal => meal.id === mealId)
+          (meals: Meal[]) =>
+            meals.find(meal => meal.id === mealId)
         )
       );
   }
 
-  addMeal(meal: Meal): Promise<DocumentReference> {
+  public addMeal(meal: Meal): Promise<DocumentReference> {
     return this.store.select<PlatformUser>('user')
       .pipe(
         distinctUntilChanged(),
@@ -67,19 +66,19 @@ export class MealsService {
       ).toPromise();
   }
 
-  editMeal(mealId: string, meal: Meal): Promise<void> {
-    return this.db.collection<Meal>('meals')
+  public editMeal(mealId: string, meal: Meal): Promise<void> {
+    return this.collectionReference
       .doc<Meal>(mealId)
-      .set({
-        ...meal,
-        lastEdit: Timestamp.now()
-      }, {
-        merge: true
-      });
+      .set(
+        { ...meal, lastEdit: Timestamp.now() },
+        { merge: true }
+      );
   }
 
-  removeMeal(mealId: Meal['id']): Promise<void> {
-    return this.db.collection<Meal>('meals').doc(mealId).delete();
+  public removeMeal(mealId: Meal['id']): Promise<void> {
+    return this.collectionReference
+      .doc(mealId)
+      .delete();
   }
 
 }

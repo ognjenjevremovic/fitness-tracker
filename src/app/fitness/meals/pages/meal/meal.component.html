@@ -17,9 +17,10 @@
       [meal]="meal"
       (create)="addMeal($event)"
       (update)="editMeal($event)"
-      (remove)="removeMeal()">
+      (delete)="removeMeal()">
     </ft-meal-form>
   </section>
+
   <ng-template #loadingMealData>
     <div class="message">
       <img src="assets/img/loading.svg">

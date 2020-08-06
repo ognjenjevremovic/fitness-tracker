@@ -1,1 +1,35 @@
-<p>workouts works!</p>
+<section class="workouts">
+  <section class="workouts__title">
+    <h1>
+      <img src="assets/img/workout.svg" />
+      Your workouts
+    </h1>
+    <a class="btn__add" routerLink="/workouts/new">
+      <img src="assets/img/add.svg">
+      Add new workout
+    </a>
+  </section>
+
+  <div *ngIf="workouts$ | async as workouts; else loading;">
+    <section class="message" *ngIf="!workouts.length">
+      <img src="assets/img/face.svg">
+      No workouts, add a new workout to start
+    </section>
+
+    <section *ngIf="workouts.length">
+      <ft-list-item *ngFor="let workout of workouts"
+        [item]="workout"
+        (navigate)="navigateToWorkoutDetails(workout)"
+        (remove)="onWorkoutRemove($event)">
+        {{ workout | workoutDetails }}
+      </ft-list-item>
+    </section>
+  </div>
+
+  <ng-template #loading>
+    <section class="message">
+      <img src="assets/img/loading.svg">
+      Fetching workouts. . .
+    </section>
+  </ng-template>
+</section>

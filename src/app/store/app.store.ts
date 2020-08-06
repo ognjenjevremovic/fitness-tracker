@@ -4,17 +4,20 @@ import { distinctUntilChanged, pluck } from 'rxjs/operators';
 
 import { PlatformUser } from '../auth/shared/models/user.model';
 import { Meal } from '../fitness/shared/models/meal.model';
+import { Workout } from '../fitness/shared/models/workout.model';
 
 
 export interface State {
   user: PlatformUser;
   meals: Meal[];
+  workouts: Workout[];
   [key: string]: any;
 }
 
 const initialAppState: State = {
   user: null,
-  meals: null
+  meals: null,
+  workouts: null
 };
 
 @Injectable()
