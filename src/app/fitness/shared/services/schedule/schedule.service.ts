@@ -23,4 +23,10 @@ export class ScheduleService {
   constructor(
     private readonly store: Store
   ) {/** */}
+
+  public setNewDate(date: Date): void {
+    this._currentDate$.next(
+      Timestamp.fromDate(date)
+    );
+  }
 }

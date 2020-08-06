@@ -1,1 +1,8 @@
-<section class="days"></section>
+<section class="days">
+  <button type="button" class="day"
+    *ngFor="let day of daysOfTheWeek; index as i"
+    (click)="selectDate(i)">
+
+    <span [class.active]="selected === i">{{ day }}</span>
+  </button>
+</section>

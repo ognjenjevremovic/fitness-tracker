@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
 
 @Component({
   selector: 'ft-schedule-days',
   templateUrl: './schedule-days.component.html',
-  styleUrls: ['./schedule-days.component.scss']
+  styleUrls: ['./schedule-days.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScheduleDaysComponent implements OnInit {
+export class ScheduleDaysComponent {
 
-  constructor() { }
+  public readonly daysOfTheWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
-  ngOnInit(): void {
+  @Input()
+  public selected: number;
+
+  @Output()
+  public readonly select: EventEmitter<number> = new EventEmitter<number>();
+
+  public selectDate(dayIndex: number): void {
+    this.select.emit(dayIndex);
   }
-
 }

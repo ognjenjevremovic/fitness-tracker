@@ -1,3 +1,11 @@
 <section class="calendar">
-  {{ date | date }}
+  <ft-schedule-controls
+    [selected]="selectedDay"
+    (move)="updateDate($event)">
+  </ft-schedule-controls>
+
+  <ft-schedule-days
+    [selected]="selectedDayIndex"
+    (select)="selectDay($event)">
+  </ft-schedule-days>
 </section>

@@ -36,4 +36,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     );
   }
 
+  public setNewDate(newDate: Date): void {
+    this.scheduleService.setNewDate(newDate);
+  }
+
 }
