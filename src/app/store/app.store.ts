@@ -10,6 +10,7 @@ import { Workout } from '../fitness/shared/models/workout.model';
 export interface State {
   user: PlatformUser;
   meals: Meal[];
+  date: Date;
   workouts: Workout[];
   [key: string]: any;
 }
@@ -17,6 +18,7 @@ export interface State {
 const initialAppState: State = {
   user: null,
   meals: null,
+  date: null,
   workouts: null
 };
 
