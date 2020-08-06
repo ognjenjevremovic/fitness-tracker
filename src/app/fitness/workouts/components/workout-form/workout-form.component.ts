@@ -65,6 +65,12 @@ export class WorkoutFormComponent implements OnChanges, OnInit {
     return this.workoutForm.get('type').value === WorkoutType.STRENGTH;
   }
 
+  public get workoutNamePlaceholder(): string {
+    return this.workoutForm.get('type').value === WorkoutType.STRENGTH
+      ? 'e.g. Benchpress'
+      : 'e.g. Tredmill';
+  }
+
   constructor(
     private readonly fb: FormBuilder,
   ) {/** */}

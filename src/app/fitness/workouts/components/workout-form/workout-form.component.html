@@ -4,7 +4,7 @@
     <fieldset class="workout-form__name">
       <label>
         <h3>Workouts</h3>
-        <input type="text" placeholder="e.g Dumbbell press" class="" formControlName="name">
+        <input type="text" [placeholder]="workoutNamePlaceholder" class="" formControlName="name">
       </label>
 
       <p class="error" *ngIf="workoutNameRequired">
