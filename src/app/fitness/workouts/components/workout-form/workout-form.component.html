@@ -12,9 +12,42 @@
       </p>
     </fieldset>
 
-    <fieldset>
-      {{ workoutForm.value | json }}
-      <ft-workout-type formControlName="type"></ft-workout-type>
+    <fieldset class="workout-form__type">
+      <label>
+        <h3>Type</h3>
+        <ft-workout-type formControlName="type"></ft-workout-type>
+      </label>
+    </fieldset>
+
+    <fieldset class="workout-form__details">
+      <div class="workout-form__fields" formGroupName="strength" *ngIf="ofTypeStrength">
+        <label>
+          <h3>Reps</h3>
+          <input type="number" formControlName="reps">
+        </label>
+
+        <label>
+          <h3>Sets</h3>
+          <input type="number" formControlName="sets">
+        </label>
+
+        <label>
+          <h3>Weight <span>(kg)</span></h3>
+          <input type="number" formControlName="weight">
+        </label>
+      </div>
+
+      <div class="workout-form__fields" formGroupName="endurance" *ngIf="ofTypeEndurance">
+        <label>
+          <h3>Distance <span>(km)</span></h3>
+          <input type="number" formControlName="distance">
+        </label>
+
+        <label>
+          <h3>Duration <span>(min)</span></h3>
+          <input type="number" formControlName="duration">
+        </label>
+      </div>
     </fieldset>
 
     <fieldset class="workout-form__submit">

@@ -1,3 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .workout-type {
   display: flex;
   &__pane {

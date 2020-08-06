@@ -1,5 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges, OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+
+import { tap } from 'rxjs/operators';
 
 import { Workout, WorkoutType } from '../../../shared/models/workout.model';
 
@@ -10,7 +20,7 @@ import { Workout, WorkoutType } from '../../../shared/models/workout.model';
   styleUrls: ['./workout-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkoutFormComponent implements OnChanges {
+export class WorkoutFormComponent implements OnChanges, OnInit {
 
   @Input()
   public readonly workout: Workout;
@@ -27,8 +37,17 @@ export class WorkoutFormComponent implements OnChanges {
   public editingWorkout: boolean;
 
   public readonly workoutForm = this.fb.group({
-    name: this.fb.control('', [Validators.required]),
-    type: this.fb.control(WorkoutType.ENDURANCE, [Validators.required]),
+    name: ['', Validators.required],
+    type: [WorkoutType.ENDURANCE, Validators.required],
+    strength: this.fb.group({
+      sets: [0, [Validators.min(1)]],
+      reps: [0, [Validators.min(1)]],
+      weight: [0, [Validators.min(1)]],
+    }, Validators.required),
+    endurance: this.fb.group({
+      distance: [0, [Validators.min(1)]],
+      duration: [0, [Validators.min(1)]],
+    }, Validators.required),
   });
 
   public get workoutNameRequired(): boolean {
@@ -38,15 +57,31 @@ export class WorkoutFormComponent implements OnChanges {
     );
   }
 
+  public get ofTypeEndurance(): boolean {
+    return this.workoutForm.get('type').value === WorkoutType.ENDURANCE;
+  }
+
+  public get ofTypeStrength(): boolean {
+    return this.workoutForm.get('type').value === WorkoutType.STRENGTH;
+  }
+
   constructor(
     private readonly fb: FormBuilder,
   ) {/** */}
+
+  ngOnInit(): void {
+    this.workoutForm.get('type').valueChanges
+      .pipe(
+        tap(this.setValidatorsDynamically.bind(this))
+      ).subscribe();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.workout && !!Object.keys(this.workout).length) {
       this.editingWorkout = true;
       this.workoutForm.patchValue(this.workout);
     }
+    this.setValidatorsDynamically(this.workoutForm.get('type').value);
   }
 
   public createWorkout(event: Event): void {
@@ -69,6 +104,16 @@ export class WorkoutFormComponent implements OnChanges {
 
   public deleteWorkout(): void {
     this.delete.emit();
+  }
+
+  private setValidatorsDynamically(type: WorkoutType): void {
+    if (type === WorkoutType.STRENGTH) {
+      this.workoutForm.get('endurance').disable();
+      this.workoutForm.get('strength').enable();
+    } else {
+      this.workoutForm.get('strength').disable();
+      this.workoutForm.get('endurance').enable();
+    }
   }
 
 }
