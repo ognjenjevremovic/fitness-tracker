@@ -9,10 +9,12 @@ import { ListItemComponent } from './components/list-item/list-item.component';
 import { RemoveItemComponent } from './components/remove-item/remove-item.component';
 import { ToggleRemoveActionsDirective } from './directives/toggle-remove-actions/toggle-remove-actions.directive';
 import { WorkoutsService } from './services/workouts/workouts.service';
+import { IngredientsPipe } from './pipes/ingredients.pipe';
+import { WorkoutDetailsPipe } from './pipes/workout-details.pipe';
 
 
 @NgModule({
-  declarations: [ListItemComponent, RemoveItemComponent, ToggleRemoveActionsDirective],
+  declarations: [ListItemComponent, RemoveItemComponent, ToggleRemoveActionsDirective, IngredientsPipe, WorkoutDetailsPipe],
   imports: [
     CommonModule,
     RouterModule,
@@ -23,7 +25,9 @@ import { WorkoutsService } from './services/workouts/workouts.service';
     ListItemComponent,
     RemoveItemComponent,
     ToggleRemoveActionsDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IngredientsPipe,
+    WorkoutDetailsPipe,
   ]
 })
 export class SharedModule {

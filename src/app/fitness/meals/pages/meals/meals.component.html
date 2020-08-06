@@ -21,7 +21,7 @@
         [item]="meal"
         (navigate)="navigateToMealDetails(meal)"
         (remove)="onMealRemove($event)">
-        {{ meal.ingredients }}
+        {{ meal.ingredients | ingredients }}
       </ft-list-item>
     </section>
   </div>

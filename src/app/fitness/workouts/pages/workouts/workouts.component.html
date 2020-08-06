@@ -21,6 +21,7 @@
         [item]="workout"
         (navigate)="navigateToWorkoutDetails(workout)"
         (remove)="onWorkoutRemove($event)">
+        {{ workout | workoutDetails }}
       </ft-list-item>
     </section>
   </div>
