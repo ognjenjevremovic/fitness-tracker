@@ -8,4 +8,11 @@
     [selected]="selectedDayIndex"
     (select)="selectDay($event)">
   </ft-schedule-days>
+
+  <ft-schedule-item
+    *ngFor="let section of sectionList"
+    [section]="getSectionDetails(section)"
+    [name]="getSectionName(section)"
+    (selected)="onSelected($event, getSectionDetails(section))">
+  </ft-schedule-item>
 </section>

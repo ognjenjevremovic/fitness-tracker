@@ -1,6 +1,8 @@
 <section class="schedule">
   <ft-schedule-calendar
     [date]="date$ | async"
-    (changeDate)="setNewDate($event)">
+    [schedule]="schedule$ | async"
+    (changeDate)="setNewDate($event)"
+    (changeSelectedSectionDetails)="navigateToDetails($event)">
   </ft-schedule-calendar>
 </section>

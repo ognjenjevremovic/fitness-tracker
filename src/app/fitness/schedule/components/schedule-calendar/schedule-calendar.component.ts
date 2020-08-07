@@ -1,4 +1,18 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, Output } from '@angular/core';
+
+import * as firebase from 'firebase';
+import Timestamp = firebase.firestore.Timestamp;
+
+import { Meal } from '../../../shared/models/meal.model';
+import { Schedule, ScheduleItem, ScheduleList } from '../../../shared/models/schedule.model';
+import { Workout } from '../../../shared/models/workout.model';
+import { SCHEDULE_TOKEN } from '../../../shared/tokens/schedule.token';
+
+
+export interface SelectScheduleItemDetails {
+  type: keyof ScheduleItem;
+  payload: Meal | Workout;
+}
 
 
 @Component({
@@ -14,16 +28,46 @@ export class ScheduleCalendarComponent implements OnChanges {
   public selectedDayIndex: number;
 
   @Input()
-  public set date(value: Date) {
-    this.selectedDay = value;
+  public set date(value: Timestamp) {
+    this.selectedDay = value.toDate();
   }
+
+  @Input()
+  schedule: ScheduleList;
 
   @Output()
   public readonly changeDate: EventEmitter<Date> = new EventEmitter<Date>();
 
+  @Output()
+  changeSelectedSectionDetails: EventEmitter<SelectScheduleItemDetails> =
+    new EventEmitter<SelectScheduleItemDetails>();
+
+  public get sectionList(): string[] {
+    return Object.keys(this.sections);
+  }
+
+  constructor(
+    @Inject(SCHEDULE_TOKEN) public readonly sections: Schedule,
+  ) {/** */}
+
   ngOnChanges(): void {
     this.selectedDayIndex = this.getToday(this.selectedDay);
     this.selectedWeek = this.getStartOfTheWeek(new Date(this.selectedDay));
+  }
+
+  public getSectionName(section: string): string {
+    return this.sections[section];
+  }
+
+  public getSectionDetails(section: string): ScheduleItem {
+    return this.schedule ? this.schedule[section] : {};
+  }
+
+  public onSelected(type: keyof ScheduleItem, section: ScheduleItem): void {
+    // this.changeSelectedSectionDetails.emit({
+    //   type,
+    //   payload: section && section[type] || ({} as Workout | Meal),
+    // });
   }
 
   public updateDate(offset: number): void {

@@ -31,7 +31,7 @@ export class MealsService {
           .valueChanges({ idField: 'id' }),
       ),
       shareReplay(),
-      tap((meals: Meal[] = []) => this.store.set('meals', meals || [])),
+      tap((meals: Meal[] = []) => this.store.set('meals', meals)),
     );
 
   constructor(
