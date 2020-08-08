@@ -70,7 +70,7 @@ export class MealsService {
     return this.collectionReference
       .doc<Meal>(mealId)
       .set(
-        { ...meal, lastEdit: Timestamp.now() },
+        { ...meal, lastEditDate: Timestamp.now() },
         { merge: true }
       );
   }

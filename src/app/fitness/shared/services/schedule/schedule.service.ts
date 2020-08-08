@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 
 import * as firebase from 'firebase';
 import Timestamp = firebase.firestore.Timestamp;
 
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 import { PlatformUser } from '../../../../auth/shared/models/user.model';
 import { AuthService } from '../../../../auth/shared/services/auth/auth.service';
 import { Store } from '../../../../store/app.store';
-import { ScheduleItem, ScheduleList } from '../../models/schedule.model';
+import { ScheduleList } from '../../models/schedule.model';
 
 
 @Injectable()
 export class ScheduleService {
 
-  private readonly collectionReference: AngularFirestoreCollection<ScheduleItem>
+  private readonly collectionReference: AngularFirestoreCollection<ScheduleList>
     = this.db.collection('schedule');
 
   private readonly _currentDate$: BehaviorSubject<Timestamp> =
@@ -32,6 +32,7 @@ export class ScheduleService {
       filter(Boolean),
       mergeMap((user: PlatformUser) => this.date$
         .pipe(
+          tap(date => console.log('date', date)),
           map(date => ({ user, date })),
         )
       ),
@@ -49,6 +50,24 @@ export class ScheduleService {
     this._currentDate$.next(
       Timestamp.fromDate(date)
     );
+  }
+
+  public updateSchedule(newSchedule: Partial<ScheduleList>): Promise<void> {
+    return this.collectionReference
+      .doc(newSchedule.id)
+      .set(newSchedule);
+  }
+
+  public createNewSchedule(newSchedule: ScheduleList): Promise<DocumentReference> {
+    return this.store.select<PlatformUser>('user')
+      .pipe(
+        distinctUntilChanged(),
+        switchMap(({ uid }: PlatformUser) =>
+          this.collectionReference
+            .add({ ...newSchedule, uid })
+        ),
+        take(1)
+      ).toPromise();
   }
 
   private getScheduleForUser(date: Timestamp, user: PlatformUser): Observable<ScheduleList> {

@@ -1,6 +1,6 @@
-import { BaseModel } from './base.model';
-import { Meal } from './meal.model';
-import { Workout } from './workout.model';
+import { BaseModel, SimpleInfo } from './base.model';
+import { SimpleMealInfo } from './meal.model';
+import { SimpleWorkoutInfo } from './workout.model';
 
 
 export enum Section {
@@ -20,11 +20,6 @@ export interface ScheduleList extends BaseModel {
 }
 
 export interface ScheduleItem {
-  readonly meals: ScheduleItemPartial<Meal>[];
-  readonly workouts: ScheduleItemPartial<Workout>[];
-}
-
-interface ScheduleItemPartial<T extends BaseModel & { name: string }> {
-  readonly id: Pick<T, 'id'>;
-  readonly name: Pick<T, 'name'>;
+  readonly meals: SimpleInfo[];
+  readonly workouts: SimpleInfo[];
 }

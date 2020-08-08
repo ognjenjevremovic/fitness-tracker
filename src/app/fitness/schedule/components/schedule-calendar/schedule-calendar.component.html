@@ -13,6 +13,8 @@
     *ngFor="let section of sectionList"
     [section]="getSectionDetails(section)"
     [name]="getSectionName(section)"
-    (selected)="onSelected($event, getSectionDetails(section))">
+    (selected)="openModal($event, section)">
   </ft-schedule-item>
+
+  <section #modalPlaceholder></section>
 </section>

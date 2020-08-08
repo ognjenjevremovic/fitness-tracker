@@ -5,11 +5,12 @@
 
   <section class="schedule-section__container">
     <div class="schedule-section__item">
-      <ng-container *ngIf="section?.meals as meals; else addMeal">
-        <div class="category-item food">
-          <p class="category-item__name" (click)="onSelect('meals')">
-            <a [routerLink]="['/meals', meal.id]"
-              *ngFor="let meal of meals; last as l">
+      <ng-container *ngIf="section?.meals?.length; else addMeal">
+        <div class="category-item food" (click)="onSelect('meals')">
+          <p class="category-item__name">
+            <a (click)="stopEventPropagation($event)"
+              [routerLink]="['/meals', meal.id]"
+              *ngFor="let meal of section.meals; last as l">
               {{ meal.name }}{{ l ? '' : ',' }}
             </a>
           </p>
@@ -26,11 +27,12 @@
     </div>
 
     <div class="schedule-section__item">
-      <ng-container *ngIf="section?.workouts as workouts; else addWorkout">
-        <div class="category-item workout">
-          <p class="category-item__name" (click)="onSelect('workouts')">
-            <a [routerLink]="['/workouts', workout.id]"
-              *ngFor="let workout of workouts; last as l">
+      <ng-container *ngIf="section?.workouts?.length; else addWorkout">
+        <div class="category-item workout" (click)="onSelect('workouts')">
+          <p class="category-item__name">
+            <a (click)="stopEventPropagation($event)"
+              [routerLink]="['/workouts', workout.id]"
+              *ngFor="let workout of section.workouts; last as l">
               {{ workout.name }}{{ l ? '' : ',' }}
             </a>
           </p>

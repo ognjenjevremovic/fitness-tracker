@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Meal } from '../../../shared/models/meal.model';
 
 import { ScheduleItem } from '../../../shared/models/schedule.model';
 
@@ -21,8 +20,9 @@ export class ScheduleItemComponent {
   @Output()
   selected: EventEmitter<keyof ScheduleItem> = new EventEmitter<keyof ScheduleItem>();
 
-  public getMealNames(meals: Meal[]): Meal['name'][] {
-    return meals.map(meal => meal.name);
+  public stopEventPropagation(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   public onSelect(type: keyof ScheduleItem): void {

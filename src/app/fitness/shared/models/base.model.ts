@@ -10,3 +10,12 @@ export interface BaseModel {
   readonly timestamp: Timestamp;
   readonly lastEditDate?: Timestamp;
 }
+
+export interface SimpleInfo {
+  readonly id: string;
+  readonly name: string;
+}
+
+export interface BaseModelWithName extends BaseModel {
+  name: string;
+}

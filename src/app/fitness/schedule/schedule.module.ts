@@ -9,6 +9,7 @@ import { ScheduleCalendarComponent } from './components/schedule-calendar/schedu
 import { ScheduleDaysComponent } from './components/schedule-days/schedule-days.component';
 import { ScheduleControlsComponent } from './components/schedule-controls/schedule-controls.component';
 import { ScheduleItemComponent } from './components/schedule-item/schedule-item.component';
+import { ScheduleModalComponent } from './components/schedule-modal/schedule-modal.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ScheduleItemComponent } from './components/schedule-item/schedule-item.
     ScheduleCalendarComponent,
     ScheduleDaysComponent,
     ScheduleControlsComponent,
-    ScheduleItemComponent
+    ScheduleItemComponent,
+    ScheduleModalComponent
   ],
   imports: [
     CommonModule,

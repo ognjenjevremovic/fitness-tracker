@@ -1,12 +1,24 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component, ComponentFactory,
+  ComponentFactoryResolver, ComponentRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild, ViewContainerRef,
+} from '@angular/core';
 
 import * as firebase from 'firebase';
 import Timestamp = firebase.firestore.Timestamp;
 
+import { BaseModelWithName, SimpleInfo } from '../../../shared/models/base.model';
 import { Meal } from '../../../shared/models/meal.model';
-import { Schedule, ScheduleItem, ScheduleList } from '../../../shared/models/schedule.model';
+import { Schedule, ScheduleItem, ScheduleList, Section } from '../../../shared/models/schedule.model';
 import { Workout } from '../../../shared/models/workout.model';
 import { SCHEDULE_TOKEN } from '../../../shared/tokens/schedule.token';
+import { ScheduleModalComponent } from '../schedule-modal/schedule-modal.component';
 
 
 export interface SelectScheduleItemDetails {
@@ -23,6 +35,11 @@ export interface SelectScheduleItemDetails {
 })
 export class ScheduleCalendarComponent implements OnChanges {
 
+  private componentRef: ComponentRef<ScheduleModalComponent>;
+  private modalComponentFactory: ComponentFactory<ScheduleModalComponent>
+    = this.componentFactoryResolver
+    .resolveComponentFactory<ScheduleModalComponent>(ScheduleModalComponent);
+
   public selectedDay: Date;
   public selectedWeek: Date;
   public selectedDayIndex: number;
@@ -35,19 +52,33 @@ export class ScheduleCalendarComponent implements OnChanges {
   @Input()
   schedule: ScheduleList;
 
+  @Input()
+  mealsList: Meal[];
+
+  @Input()
+  workoutsList: Workout[];
+
   @Output()
   public readonly changeDate: EventEmitter<Date> = new EventEmitter<Date>();
 
   @Output()
-  changeSelectedSectionDetails: EventEmitter<SelectScheduleItemDetails> =
+  public readonly changeSelectedSectionDetails: EventEmitter<SelectScheduleItemDetails> =
     new EventEmitter<SelectScheduleItemDetails>();
 
-  public get sectionList(): string[] {
-    return Object.keys(this.sections);
+  @Output()
+  public readonly changeSchedule: EventEmitter<ScheduleList> =
+    new EventEmitter<ScheduleList>();
+
+  @ViewChild('modalPlaceholder', { read: ViewContainerRef })
+  public readonly modalContainer: ViewContainerRef;
+
+  public get sectionList(): Section[] {
+    return Object.keys(this.sections) as Section[];
   }
 
   constructor(
     @Inject(SCHEDULE_TOKEN) public readonly sections: Schedule,
+    private readonly componentFactoryResolver: ComponentFactoryResolver
   ) {/** */}
 
   ngOnChanges(): void {
@@ -55,19 +86,51 @@ export class ScheduleCalendarComponent implements OnChanges {
     this.selectedWeek = this.getStartOfTheWeek(new Date(this.selectedDay));
   }
 
-  public getSectionName(section: string): string {
+  private openModal(type: keyof ScheduleItem, section: Section): void {
+    this.componentRef = this.modalContainer
+      .createComponent<ScheduleModalComponent>(this.modalComponentFactory);
+    const instance = this.componentRef.instance;
+
+    instance.closed
+      .subscribe(() => this.closeModal());
+    instance.assign
+      .subscribe(
+        (data: SimpleInfo[]) =>
+          this.changeSchedule.emit({
+            ...this.schedule,
+            [section]: {
+              ...this.schedule[section],
+              [type]: data
+            },
+            timestamp: Timestamp.fromDate(this.selectedDay)
+          })
+      );
+
+    console.log('this.schedule', this.schedule);
+    console.log('this.schedule[section]', this.schedule[section]);
+
+    instance.typeOfData = type;
+    instance.availableData = this.getModalListData(type) || [];
+    instance.selectedData = this.getSectionDetails(section)[type] || [];
+  }
+
+  private getModalListData(type: keyof ScheduleItem): BaseModelWithName[] {
+    return type === 'meals' ? this.mealsList : this.workoutsList;
+  }
+
+  public getSectionDetails(section: Section): ScheduleItem {
+    return (this.schedule && this.schedule[section]) || ({} as ScheduleItem);
+  }
+
+  public getSectionName(section: Section): string {
     return this.sections[section];
   }
 
-  public getSectionDetails(section: string): ScheduleItem {
-    return this.schedule ? this.schedule[section] : {};
-  }
-
-  public onSelected(type: keyof ScheduleItem, section: ScheduleItem): void {
-    // this.changeSelectedSectionDetails.emit({
-    //   type,
-    //   payload: section && section[type] || ({} as Workout | Meal),
-    // });
+  private closeModal(): void {
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
+    this.modalContainer.clear();
   }
 
   public updateDate(offset: number): void {
