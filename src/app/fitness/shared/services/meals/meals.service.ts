@@ -13,7 +13,9 @@ import { PlatformUser } from '../../../../auth/shared/models/user.model';
 import { Store } from '../../../../store/app.store';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class MealsService {
   private readonly collectionReference: AngularFirestoreCollection<Meal>
     = this.db.collection<Meal>('meals');

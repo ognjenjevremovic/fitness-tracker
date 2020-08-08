@@ -14,7 +14,7 @@ import { WorkoutsModule } from './workouts/workouts.module';
   imports: [
     CommonModule,
     FitnessRoutingModule,
-    SharedModule.forRoot(),
+    SharedModule,
     MealsModule,
     ScheduleModule,
     WorkoutsModule

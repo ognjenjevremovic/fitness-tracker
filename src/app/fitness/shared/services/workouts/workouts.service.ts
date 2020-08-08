@@ -13,7 +13,9 @@ import { Store } from '../../../../store/app.store';
 import { Workout } from '../../models/workout.model';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class WorkoutsService {
 
   private readonly collectionReference: AngularFirestoreCollection<Workout>

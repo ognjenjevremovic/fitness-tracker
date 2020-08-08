@@ -13,7 +13,9 @@ import { Store } from '../../../../store/app.store';
 import { ScheduleList } from '../../models/schedule.model';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ScheduleService {
 
   private readonly collectionReference: AngularFirestoreCollection<ScheduleList>
