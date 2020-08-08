@@ -1,0 +1,67 @@
+.schedule-section {
+
+  &__bar {
+    padding: 10px 0;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    background: #39a1e7;
+    color: #fff;
+  }
+
+  &__item {
+    padding: 0;
+    cursor: pointer;
+    display: block;
+    font-weight: 400;
+    color: #545e6f;
+    font-size: 16px;
+    font-style: italic;
+    transition: all .2s ease-in-out;
+    background-size: 24px 24px;
+
+    .category-item {
+      padding: 10px 40px;
+      display: flex;
+      border-bottom: 1px solid #c1cedb;
+      transition: all .2s ease-in-out;
+      flex-direction: column;
+
+      > p {
+        margin: 0;
+      }
+
+      &.food {
+        background: url('../../../../../assets/img/food.svg') no-repeat 8px 10px;
+      }
+
+      &.workout {
+        background: url('../../../../../assets/img/workout.svg') no-repeat 8px 10px;
+      }
+
+      &.empty {
+        background: url('../../../../../assets/img/plus.svg') no-repeat 8px 10px;
+      }
+
+      &__name {
+        flex-grow: 1;
+      }
+
+      &__details {
+        font-size: 12px;
+        color: #8ea6bd;
+        font-style: italic;
+      }
+
+    }
+
+    &:first-child {
+      border-bottom: 1px solid #c1cedb;
+    }
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+}

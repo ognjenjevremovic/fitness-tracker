@@ -8,6 +8,7 @@ import { MealsService } from './services/meals/meals.service';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { RemoveItemComponent } from './components/remove-item/remove-item.component';
 import { ToggleRemoveActionsDirective } from './directives/toggle-remove-actions/toggle-remove-actions.directive';
+import { ScheduleService } from './services/schedule/schedule.service';
 import { WorkoutsService } from './services/workouts/workouts.service';
 import { IngredientsPipe } from './pipes/ingredients.pipe';
 import { WorkoutDetailsPipe } from './pipes/workout-details.pipe';
@@ -19,7 +20,7 @@ import { WorkoutDetailsPipe } from './pipes/workout-details.pipe';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
   ],
   exports: [
     ListItemComponent,
@@ -28,13 +29,13 @@ import { WorkoutDetailsPipe } from './pipes/workout-details.pipe';
     ReactiveFormsModule,
     IngredientsPipe,
     WorkoutDetailsPipe,
-  ]
+  ],
 })
 export class SharedModule {
   public static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-      providers: [MealsService, WorkoutsService]
+      providers: [MealsService, WorkoutsService, ScheduleService],
     };
   }
 }

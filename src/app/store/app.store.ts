@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, pluck } from 'rxjs/operators';
 
 import { PlatformUser } from '../auth/shared/models/user.model';
 import { Meal } from '../fitness/shared/models/meal.model';
+import { ScheduleList } from '../fitness/shared/models/schedule.model';
 import { Workout } from '../fitness/shared/models/workout.model';
 
 
 export interface State {
   user: PlatformUser;
   meals: Meal[];
+  date: Date;
   workouts: Workout[];
+  schedule: ScheduleList;
   [key: string]: any;
 }
 
 const initialAppState: State = {
   user: null,
   meals: null,
+  date: null,
+  schedule: null,
   workouts: null
 };
 

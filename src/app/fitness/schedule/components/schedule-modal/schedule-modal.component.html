@@ -1,0 +1,40 @@
+<section class="schedule-assign">
+  <section class="schedule-assign__modal">
+
+    <div class="schedule-assign__title">
+      <h1>
+        Assign {{ typeOfData }}
+      </h1>
+      <a class="btn__add" [routerLink]="['/', typeOfData, 'new']">
+        <img src="assets/img/add.svg">
+        New {{ typeOfData === 'meals' ? 'meal' : 'workout' }}
+      </a>
+    </div>
+
+    <div class="schedule-assign__list">
+      <span class="schedule-assign__empty" *ngIf="!availableData.length; else dataList">
+        <img src="assets/img/face.svg">
+        Nothing to assign
+      </span>
+      <ng-template #dataList>
+        <div [class.selected]="isSelected(item)"
+          (click)="select(item)"
+          *ngFor="let item of availableData">
+          {{ item.name }}
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="schedule-assign__submit">
+      <div>
+        <button type="button" class="button" (click)="assignData($event)">
+          Update
+        </button>
+        <button type="button" class="button button--cancel" (click)="closeModal($event)">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+  </section>
+</section>

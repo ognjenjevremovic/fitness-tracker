@@ -1,0 +1,20 @@
+<section class="calendar">
+  <ft-schedule-controls
+    [selected]="selectedDay"
+    (move)="updateDate($event)">
+  </ft-schedule-controls>
+
+  <ft-schedule-days
+    [selected]="selectedDayIndex"
+    (select)="selectDay($event)">
+  </ft-schedule-days>
+
+  <ft-schedule-item
+    *ngFor="let section of sectionList"
+    [section]="getSectionDetails(section)"
+    [name]="getSectionName(section)"
+    (selected)="openModal($event, section)">
+  </ft-schedule-item>
+
+  <section #modalPlaceholder></section>
+</section>

@@ -1,7 +1,4 @@
-import * as firebase from 'firebase';
-import Timestamp = firebase.firestore.Timestamp;
-
-import { PlatformUser } from '../../../auth/shared/models/user.model';
+import { BaseModel } from './base.model';
 
 
 export enum WorkoutType {
@@ -20,13 +17,11 @@ export interface EnduranceWorkoutDetails {
   readonly duration: number;
 }
 
-export interface Workout {
+export interface Workout extends BaseModel {
   readonly name: string;
   readonly type: WorkoutType;
-  readonly id: string;
-  readonly timestamp: Timestamp;
   readonly strength?: StrengthWorkoutDetails;
   readonly endurance?: EnduranceWorkoutDetails;
-  readonly uid: PlatformUser['uid'];
-  readonly lastEdit?: Timestamp;
 }
+
+export type SimpleWorkoutInfo = Pick<Workout, 'name'> & Pick<Workout, 'id'>;
