@@ -7,7 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { tap } from 'rxjs/operators';
 
@@ -39,15 +39,8 @@ export class WorkoutFormComponent implements OnChanges, OnInit {
   public readonly workoutForm = this.fb.group({
     name: ['', Validators.required],
     type: [WorkoutType.ENDURANCE, Validators.required],
-    strength: this.fb.group({
-      sets: [0, [Validators.min(1)]],
-      reps: [0, [Validators.min(1)]],
-      weight: [0, [Validators.min(1)]],
-    }, Validators.required),
-    endurance: this.fb.group({
-      distance: [0, [Validators.min(1)]],
-      duration: [0, [Validators.min(1)]],
-    }, Validators.required),
+    strength: this.getStrengthFormControl(),
+    endurance: this.getEnduranceFormControl(),
   });
 
   public get workoutNameRequired(): boolean {
@@ -78,7 +71,7 @@ export class WorkoutFormComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.workoutForm.get('type').valueChanges
       .pipe(
-        tap(this.setValidatorsDynamically.bind(this))
+        tap(this.setValidatorsDynamically.bind(this)),
       ).subscribe();
   }
 
@@ -122,4 +115,18 @@ export class WorkoutFormComponent implements OnChanges, OnInit {
     }
   }
 
+  private getStrengthFormControl(): FormGroup {
+    return this.fb.group({
+      sets: [0, [Validators.min(1)]],
+      reps: [0, [Validators.min(1)]],
+      weight: [0, [Validators.min(1)]],
+    }, Validators.required);
+  }
+
+  private getEnduranceFormControl(): FormGroup {
+    return this.fb.group({
+      distance: [0, [Validators.min(1)]],
+      duration: [0, [Validators.min(1)]],
+    }, Validators.required);
+  }
 }

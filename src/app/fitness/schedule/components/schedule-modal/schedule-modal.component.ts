@@ -8,7 +8,7 @@ import { ScheduleItem } from '../../../shared/models/schedule.model';
   selector: 'ft-schedule-modal',
   templateUrl: './schedule-modal.component.html',
   styleUrls: ['./schedule-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScheduleModalComponent {
 

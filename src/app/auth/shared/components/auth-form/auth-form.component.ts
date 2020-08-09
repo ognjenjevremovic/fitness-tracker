@@ -1,23 +1,23 @@
-import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { AuthCredentials } from '../../models/auth.model';
 
 
 @Component({
   selector: 'ft-auth-form',
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthFormComponent {
-  @ContentChild('.error')
-  authFormError: HTMLParagraphElement;
 
   @Output()
   public readonly submitted: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   public readonly authForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   constructor(
@@ -33,13 +33,17 @@ export class AuthFormComponent {
     }
   }
 
-  public getFieldRequired(field: string): boolean {
-    return this.authForm.get(field).hasError('required')
-      && this.authForm.get(field).touched;
+  public getFieldRequired(field: keyof AuthCredentials): boolean {
+    return (
+      this.authForm.get(field).hasError('required')
+      && this.authForm.get(field).touched
+    );
   }
 
-  public getFieldInvalidInput(field: string, validation: string): boolean {
-    return this.authForm.get(field).hasError(validation)
-      && this.authForm.get(field).touched;
+  public getFieldInvalidInput(field: keyof AuthCredentials, validation: string): boolean {
+    return (
+      this.authForm.get(field).hasError(validation)
+      && this.authForm.get(field).touched
+    );
   }
 }

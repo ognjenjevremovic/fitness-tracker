@@ -19,7 +19,7 @@
           type="button"
           class="meal-form__add"
           (click)="addIngredient()">
-          <img src="assets/img/add.svg" />
+          <img src="assets/img/add.svg"/>
           Add ingredient
         </button>
       </div>
@@ -42,12 +42,14 @@
         <button
           type="button" class="button"
           *ngIf="!editingMeal"
-          (click)="createMeal($event)">Add meal</button>
+          (click)="createMeal($event)">Add meal
+        </button>
 
         <!-- Update existing meal -->
         <button type="button" class="button"
           *ngIf="editingMeal"
-          (click)="updateMeal($event)">Update meal</button>
+          (click)="updateMeal($event)">Update meal
+        </button>
 
         <!-- Navigate back to meals and discard the changes -->
         <a class="button button--cancel" routerLink="/meals">Cancel</a>
@@ -60,7 +62,8 @@
           [showRemoveActions]="toggleActions.showRemoveActions">
 
           <button type="button" class="button button--delete"
-            ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">Delete</button>
+            ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">Delete
+          </button>
         </ft-remove-item>
       </div>
     </fieldset>

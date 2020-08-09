@@ -3,6 +3,6 @@
     *ngFor="let day of daysOfTheWeek; index as i"
     (click)="selectDate(i)">
 
-    <span [class.active]="selected === i">{{ day }}</span>
+    <span [class.active]="selectedDay === i">{{ day }}</span>
   </button>
 </section>

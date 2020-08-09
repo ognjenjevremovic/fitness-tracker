@@ -3,28 +3,29 @@ import Timestamp = firebase.firestore.Timestamp;
 
 
 export abstract class DatesUtil {
-  public static getDaysStartingTimestamp(timestamp: Timestamp): Timestamp {
+  public static getStartOfTheDay(timestamp: Timestamp): Timestamp {
     const date = timestamp.toDate();
     const time = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
     return Timestamp.fromMillis(time);
   }
 
-  public static getDaysEndingTimestamp(timestamp: Timestamp): Timestamp {
+  public static getEndOfTheDay(timestamp: Timestamp): Timestamp {
     const date = timestamp.toDate();
-    const time = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).getTime() - 1;
+    const time = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() + 1,
+    ).getTime() - 1;
     return Timestamp.fromMillis(time);
   }
 
-  public static getStartingDayOfTheWeek(timestamp: Timestamp): Timestamp {
+  public static getDayOffset(timestamp: Timestamp, offset: number = 1): Timestamp {
     const date = timestamp.toDate();
-    const dayOfTheWeek = date.getDay();       //  e.g. Thursday = 4
-    const currentDate = date.getDate();       //  e.g. 6th of August = 6
-    return Timestamp.fromDate(
-      new Date(date.setDate(currentDate - dayOfTheWeek + (!dayOfTheWeek ? -6 : 1)))
-    );
+    const time = new Date(date.getFullYear(), date.getMonth(), date.getDate() + offset).getTime();
+    return Timestamp.fromMillis(time);
   }
 
-  public static getWeekOffset(timestamp: Timestamp, offset: number): Timestamp {
+  public static getWeekOffset(timestamp: Timestamp, offset: number = 1): Timestamp {
     const date = timestamp.toDate();
     const newDate = new Date(
       date.getFullYear(), date.getMonth(), date.getDate(),
@@ -32,19 +33,22 @@ export abstract class DatesUtil {
     return Timestamp.fromMillis(newDate.setDate(newDate.getDate() + 7 * offset));
   }
 
-  public static getDayOfTheWeekIndex(timestamp: Timestamp): number {
-    return timestamp.toDate().getDay();
-  }
-
-  public static now(): Timestamp {
-    return Timestamp.now();
-  }
-
-
-  private static getDateWithoutMilliseconds(timestamp: Timestamp): Timestamp {
+  public static getFirstDayOfTheWeek(timestamp: Timestamp): Timestamp {
     const date = timestamp.toDate();
+    const dayOfTheWeek = date.getDay();       //  e.g. Sunday = 0
+    const currentDate = date.getDate();       //  e.g. 9th of August = 9
     return Timestamp.fromDate(
-      new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
+      new Date(
+        date.setDate(
+          currentDate                     //  5
+          - dayOfTheWeek                  //  3
+          + (!dayOfTheWeek ? -6 : 1)
+        )
+      )
     );
+  }
+
+  public static getIndexOfTheDay(timestamp: Timestamp): number {
+    return timestamp.toDate().getDay();
   }
 }

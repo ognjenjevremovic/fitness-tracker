@@ -1,6 +1,4 @@
 import { BaseModel, SimpleInfo } from './base.model';
-import { SimpleMealInfo } from './meal.model';
-import { SimpleWorkoutInfo } from './workout.model';
 
 
 export enum Section {

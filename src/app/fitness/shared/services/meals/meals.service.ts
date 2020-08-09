@@ -8,12 +8,14 @@ import * as firebase from 'firebase';
 import Timestamp = firebase.firestore.Timestamp;
 
 import { AuthService } from '../../../../auth/shared/services/auth/auth.service';
-import { Meal} from '../../models/meal.model';
+import { Meal } from '../../models/meal.model';
 import { PlatformUser } from '../../../../auth/shared/models/user.model';
 import { Store } from '../../../../store/app.store';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MealsService {
   private readonly collectionReference: AngularFirestoreCollection<Meal>
     = this.db.collection<Meal>('meals');
@@ -25,8 +27,8 @@ export class MealsService {
         this.db
           .collection<Meal>(
             'meals',
-              collectionReference =>
-                collectionReference.where('uid', '==', user.uid)
+            collectionReference =>
+              collectionReference.where('uid', '==', user.uid),
           )
           .valueChanges({ idField: 'id' }),
       ),
@@ -49,8 +51,9 @@ export class MealsService {
         filter(Boolean),
         map(
           (meals: Meal[]) =>
-            meals.find(meal => meal.id === mealId)
-        )
+            meals.find(meal => meal.id === mealId),
+        ),
+        take(1),
       );
   }
 
@@ -60,9 +63,9 @@ export class MealsService {
         distinctUntilChanged(),
         switchMap(user =>
           this.collectionReference
-            .add({ ...meal, uid: user.uid, timestamp: Timestamp.now() })
+            .add({ ...meal, uid: user.uid, timestamp: Timestamp.now() }),
         ),
-        take(1)
+        take(1),
       ).toPromise();
   }
 
@@ -71,7 +74,7 @@ export class MealsService {
       .doc<Meal>(mealId)
       .set(
         { ...meal, lastEditDate: Timestamp.now() },
-        { merge: true }
+        { merge: true },
       );
   }
 

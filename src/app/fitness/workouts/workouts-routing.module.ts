@@ -7,11 +7,11 @@ import { WorkoutsComponent } from './pages/workouts/workouts.component';
 const routes: Routes = [
   { path: '', component: WorkoutsComponent },
   { path: 'new', component: WorkoutComponent },
-  { path: ':id', component: WorkoutComponent }
+  { path: ':id', component: WorkoutComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class WorkoutsRoutingModule { }
+export class WorkoutsRoutingModule {/** */}

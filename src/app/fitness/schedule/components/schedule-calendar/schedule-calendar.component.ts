@@ -1,13 +1,7 @@
 import {
-  ChangeDetectionStrategy,
-  Component, ComponentFactory,
-  ComponentFactoryResolver, ComponentRef,
-  EventEmitter,
-  Inject,
-  Input,
-  OnChanges,
-  Output,
-  ViewChild, ViewContainerRef,
+  ChangeDetectionStrategy, Component, ComponentFactory,
+  ComponentFactoryResolver, ComponentRef, EventEmitter,
+  Inject, Input, OnChanges, Output, ViewChild, ViewContainerRef,
 } from '@angular/core';
 
 import * as firebase from 'firebase';
@@ -20,11 +14,7 @@ import { Workout } from '../../../shared/models/workout.model';
 import { SCHEDULE_TOKEN } from '../../../shared/tokens/schedule.token';
 import { ScheduleModalComponent } from '../schedule-modal/schedule-modal.component';
 
-
-export interface SelectScheduleItemDetails {
-  type: keyof ScheduleItem;
-  payload: Meal | Workout;
-}
+import { DatesUtil } from '../../../shared/utils/dates.util';
 
 
 @Component({
@@ -40,13 +30,13 @@ export class ScheduleCalendarComponent implements OnChanges {
     = this.componentFactoryResolver
     .resolveComponentFactory<ScheduleModalComponent>(ScheduleModalComponent);
 
-  public selectedDay: Date;
-  public selectedWeek: Date;
+  public selectedDay: Timestamp;
+  public selectedWeek: Timestamp;
   public selectedDayIndex: number;
 
   @Input()
   public set date(value: Timestamp) {
-    this.selectedDay = value.toDate();
+    this.selectedDay = value;
   }
 
   @Input()
@@ -59,11 +49,7 @@ export class ScheduleCalendarComponent implements OnChanges {
   workoutsList: Workout[];
 
   @Output()
-  public readonly changeDate: EventEmitter<Date> = new EventEmitter<Date>();
-
-  @Output()
-  public readonly changeSelectedSectionDetails: EventEmitter<SelectScheduleItemDetails> =
-    new EventEmitter<SelectScheduleItemDetails>();
+  public readonly changeDate: EventEmitter<Timestamp> = new EventEmitter<Timestamp>();
 
   @Output()
   public readonly changeSchedule: EventEmitter<ScheduleList> =
@@ -78,12 +64,12 @@ export class ScheduleCalendarComponent implements OnChanges {
 
   constructor(
     @Inject(SCHEDULE_TOKEN) public readonly sections: Schedule,
-    private readonly componentFactoryResolver: ComponentFactoryResolver
+    private readonly componentFactoryResolver: ComponentFactoryResolver,
   ) {/** */}
 
   ngOnChanges(): void {
-    this.selectedDayIndex = this.getToday(this.selectedDay);
-    this.selectedWeek = this.getStartOfTheWeek(new Date(this.selectedDay));
+    this.selectedDayIndex = DatesUtil.getIndexOfTheDay(this.selectedDay);
+    this.selectedWeek = DatesUtil.getFirstDayOfTheWeek(this.selectedDay);
   }
 
   private openModal(type: keyof ScheduleItem, section: Section): void {
@@ -100,14 +86,11 @@ export class ScheduleCalendarComponent implements OnChanges {
             ...this.schedule,
             [section]: {
               ...this.schedule[section],
-              [type]: data
+              [type]: data,
             },
-            timestamp: Timestamp.fromDate(this.selectedDay)
-          })
+            timestamp: this.selectedDay,
+          }),
       );
-
-    console.log('this.schedule', this.schedule);
-    console.log('this.schedule[section]', this.schedule[section]);
 
     instance.typeOfData = type;
     instance.availableData = this.getModalListData(type) || [];
@@ -133,32 +116,18 @@ export class ScheduleCalendarComponent implements OnChanges {
     this.modalContainer.clear();
   }
 
-  public updateDate(offset: number): void {
-    const startOfTheWeek = this.getStartOfTheWeek(this.selectedDay);
-    const newDate = new Date(
-      startOfTheWeek.getFullYear(), startOfTheWeek.getMonth(), startOfTheWeek.getDate(),
-    );
-    newDate.setDate(newDate.getDate() + 7 * offset);
-    this.selectedDayIndex = newDate.getDay() + 1;
-    this.changeDate.emit(newDate);
+  public selectWeek(offset: number): void {
+    const startOfTheWeek = DatesUtil.getFirstDayOfTheWeek(this.selectedDay);
+    const weekOffset = DatesUtil.getWeekOffset(startOfTheWeek, offset);
+    this.changeDate.emit(weekOffset);
   }
 
   public selectDay(selectedDayIndex: number): void {
-    const selectedDay = new Date(this.selectedWeek);
-    selectedDay.setDate(selectedDay.getDate() + selectedDayIndex);
+    const selectedDay = DatesUtil.getDayOffset(
+      this.selectedWeek,
+      !selectedDayIndex ? 6 : selectedDayIndex - 1,
+    );
     this.changeDate.emit(selectedDay);
-  }
-
-  private getStartOfTheWeek(date = new Date()): Date {
-    const dayOfTheWeek = date.getDay();       //  e.g. Thursday = 4
-    const currentDate = date.getDate();       //  e.g. 6th of August = 6
-    const startOfTheWeek = currentDate - dayOfTheWeek + (!dayOfTheWeek ? -6 : 1);
-    return new Date(date.setDate(startOfTheWeek));
-  }
-
-  private getToday(date: Date): number {
-    const today = date.getDay() - 1;
-    return today < 0 ? 6 : today;
   }
 
 }

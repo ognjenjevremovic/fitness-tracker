@@ -9,11 +9,15 @@ import { MealFormComponent } from './components/meal-form/meal-form.component';
 
 
 @NgModule({
-  declarations: [MealsComponent, MealComponent, MealFormComponent],
+  declarations: [
+    MealsComponent,
+    MealComponent,
+    MealFormComponent,
+  ],
   imports: [
     CommonModule,
     MealsRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
-export class MealsModule { }
+export class MealsModule {/** */}

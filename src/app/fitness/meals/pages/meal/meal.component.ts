@@ -11,7 +11,7 @@ import { MealsService } from '../../../shared/services/meals/meals.service';
 @Component({
   selector: 'ft-meal',
   templateUrl: './meal.component.html',
-  styleUrls: ['./meal.component.scss']
+  styleUrls: ['./meal.component.scss'],
 })
 export class MealComponent implements OnInit, OnDestroy {
 
@@ -23,20 +23,18 @@ export class MealComponent implements OnInit, OnDestroy {
 
   public meal$: Observable<Meal>;
 
-
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly mealService: MealsService,
-  ) { }
-
+  ) {/** */}
 
   ngOnInit(): void {
     this._subscription = this.mealService.meals$.subscribe();
     this.meal$ = this.route.params
       .pipe(
         switchMap(({ id: mealId }) => this.mealService.getMealById(mealId)),
-        shareReplay()
+        shareReplay(),
       );
   }
 

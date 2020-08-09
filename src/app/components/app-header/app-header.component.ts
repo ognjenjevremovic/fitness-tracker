@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 
 import { PlatformUser } from '../../auth/shared/models/user.model';
 
+
 @Component({
   selector: 'ft-app-header',
   templateUrl: './app-header.component.html',

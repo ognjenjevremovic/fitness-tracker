@@ -11,7 +11,7 @@ import { WorkoutsService } from '../../../shared/services/workouts/workouts.serv
 @Component({
   selector: 'ft-workouts',
   templateUrl: './workouts.component.html',
-  styleUrls: ['./workouts.component.scss']
+  styleUrls: ['./workouts.component.scss'],
 })
 export class WorkoutsComponent implements OnInit, OnDestroy {
 
@@ -22,12 +22,12 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly workoutsService: WorkoutsService,
-    private readonly store: Store
+    private readonly store: Store,
   ) {/** */}
 
   ngOnInit(): void {
-    this._subscription = this.workoutsService.workouts$.subscribe();
     this.workouts$ = this.store.select<Workout[]>('workouts');
+    this._subscription = this.workoutsService.workouts$.subscribe();
   }
 
   ngOnDestroy(): void {
@@ -35,7 +35,6 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   public async navigateToWorkoutDetails(workout: Workout): Promise<void> {
-    console.log('navigating to', workout.id);
     await this.router.navigate(['workouts', workout.id]);
   }
 

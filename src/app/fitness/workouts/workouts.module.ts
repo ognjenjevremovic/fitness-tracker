@@ -14,7 +14,7 @@ import { WorkoutTypeComponent } from './components/workout-type/workout-type.com
   imports: [
     CommonModule,
     WorkoutsRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
-export class WorkoutsModule { }
+export class WorkoutsModule {/** */}

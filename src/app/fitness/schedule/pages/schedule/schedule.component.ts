@@ -13,13 +13,12 @@ import { Workout } from '../../../shared/models/workout.model';
 import { MealsService } from '../../../shared/services/meals/meals.service';
 import { ScheduleService } from '../../../shared/services/schedule/schedule.service';
 import { WorkoutsService } from '../../../shared/services/workouts/workouts.service';
-import { SelectScheduleItemDetails } from '../../components/schedule-calendar/schedule-calendar.component';
 
 
 @Component({
   selector: 'ft-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss']
+  styleUrls: ['./schedule.component.scss'],
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
 
@@ -34,11 +33,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly scheduleService: ScheduleService,
     private readonly mealService: MealsService,
-    private readonly workoutService: WorkoutsService
+    private readonly workoutService: WorkoutsService,
   ) {/** */}
 
   ngOnInit(): void {
-    this.date$ = this.scheduleService.date$;
+    this.date$ = this.store.select<Timestamp>('date');
     this.schedule$ = this.store.select<ScheduleList>('schedule');
     this.meals$ = this.store.select<Meal[]>('meals');
     this.workouts$ = this.store.select<Workout[]>('workouts');
@@ -53,11 +52,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subscriptions.forEach(
-      subscription => subscription.unsubscribe()
+      subscription => subscription.unsubscribe(),
     );
   }
 
-  public setNewDate(newDate: Date): void {
+  public setNewDate(newDate: Timestamp): void {
     this.scheduleService.setNewDate(newDate);
   }
 
@@ -67,9 +66,4 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
     return await this.scheduleService.createNewSchedule(newSchedule as ScheduleList);
   }
-
-  public navigateToDetails(selectedItem: SelectScheduleItemDetails): void {
-    console.log(selectedItem);
-  }
-
 }

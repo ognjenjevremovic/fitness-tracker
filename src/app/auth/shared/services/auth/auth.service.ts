@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { User } from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
+import { AngularFireAuth } from '@angular/fire/auth';
 
 import { AuthCredentials } from '../../models/auth.model';
 import { Store } from '../../../../store/app.store';
 import { PlatformUser } from '../../models/user.model';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
   public get currentUser$(): Observable<PlatformUser> {

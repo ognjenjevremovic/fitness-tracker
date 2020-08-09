@@ -25,8 +25,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {/** */}
 
   ngOnInit(): void {
-    this._subscription = this.authService.auth$.subscribe();
     this.user$ = this.store.select<PlatformUser>('user');
+    this._subscription = this.authService.auth$.subscribe();
   }
 
   ngOnDestroy(): void {
@@ -35,6 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async onLogout(): Promise<void> {
     await this.authService.logoutUser();
-    await this.router.navigate(['auth', 'login']);
+    await this.router.navigate(['/auth', 'login']);
   }
 }

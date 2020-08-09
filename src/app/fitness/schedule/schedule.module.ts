@@ -19,13 +19,13 @@ import { ScheduleModalComponent } from './components/schedule-modal/schedule-mod
     ScheduleDaysComponent,
     ScheduleControlsComponent,
     ScheduleItemComponent,
-    ScheduleModalComponent
+    ScheduleModalComponent,
   ],
   imports: [
     CommonModule,
     ScheduleRoutingModule,
     SharedModule,
   ],
-  providers: [SCHEDULE_PROVIDER]
+  providers: [SCHEDULE_PROVIDER],
 })
-export class ScheduleModule {}
+export class ScheduleModule {/** */}
