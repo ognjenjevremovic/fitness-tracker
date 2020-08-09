@@ -4,7 +4,7 @@ import { Meal } from '../models/meal.model';
 
 
 @Pipe({
-  name: 'ingredients'
+  name: 'ingredients',
 })
 export class IngredientsPipe implements PipeTransform {
 

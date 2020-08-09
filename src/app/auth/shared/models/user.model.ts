@@ -3,5 +3,5 @@ export class PlatformUser {
     public readonly uid: string,
     public readonly email: string,
     public readonly authenticated: boolean
-  ) {}
+  ) {/** */}
 }

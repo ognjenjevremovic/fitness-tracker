@@ -23,5 +23,3 @@ export interface Workout extends BaseModel {
   readonly strength?: StrengthWorkoutDetails;
   readonly endurance?: EnduranceWorkoutDetails;
 }
-
-export type SimpleWorkoutInfo = Pick<Workout, 'name'> & Pick<Workout, 'id'>;

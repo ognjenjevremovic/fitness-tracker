@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { RemoveItemComponent } from './components/remove-item/remove-item.component';

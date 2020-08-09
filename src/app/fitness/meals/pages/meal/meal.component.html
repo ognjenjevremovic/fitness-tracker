@@ -1,7 +1,7 @@
 <section class="meal">
   <section class="meal__title">
     <h1>
-      <img src="assets/img/food.svg" />
+      <img src="assets/img/food.svg"/>
       <span *ngIf="meal$ | async as meal; else loadingMealName">
         {{ meal?.name ? 'Edit' : 'Create' }} meal
       </span>

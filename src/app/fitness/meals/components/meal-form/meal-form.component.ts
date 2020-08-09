@@ -1,4 +1,7 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component, ChangeDetectionStrategy, Output,
+  EventEmitter, Input, OnChanges, SimpleChanges
+} from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { Meal } from '../../../shared/models/meal.model';
@@ -11,6 +14,7 @@ import { Meal } from '../../../shared/models/meal.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MealFormComponent implements OnChanges {
+
   @Input()
   public readonly meal: Meal;
 

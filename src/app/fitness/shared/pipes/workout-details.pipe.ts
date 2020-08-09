@@ -4,7 +4,7 @@ import { Workout, WorkoutType } from '../models/workout.model';
 
 
 @Pipe({
-  name: 'workoutDetails'
+  name: 'workoutDetails',
 })
 export class WorkoutDetailsPipe implements PipeTransform {
 
@@ -15,11 +15,11 @@ export class WorkoutDetailsPipe implements PipeTransform {
   }
 
   private getStrengthWorkoutDetails({ strength }: Workout): string {
-    return `Reps: ${strength.reps}, Sets: ${strength.sets}, Weight: ${strength.weight} (kg)`;
+    return `Reps: ${ strength.reps }, Sets: ${ strength.sets }, Weight: ${ strength.weight } (kg)`;
   }
 
-  private getEnduranceWorkoutDetails({ endurance }: Workout) {
-    return `Distance: ${endurance.distance} (km), Duration: ${endurance.duration} (min)`;
+  private getEnduranceWorkoutDetails({ endurance }: Workout): string {
+    return `Distance: ${ endurance.distance } (km), Duration: ${ endurance.duration } (min)`;
   }
 
 }

@@ -14,7 +14,7 @@ import { Workout } from '../../models/workout.model';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WorkoutsService {
 
@@ -28,18 +28,18 @@ export class WorkoutsService {
         ({ uid }) => this.db
           .collection<Workout>(
             'workouts',
-            collectionRef => collectionRef.where('uid', '==', uid)
+            collectionRef => collectionRef.where('uid', '==', uid),
           )
-          .valueChanges({ idField: 'id' })
+          .valueChanges({ idField: 'id' }),
       ),
       shareReplay(),
-      tap((workouts) => this.store.set('workouts', workouts || []))
+      tap((workouts) => this.store.set('workouts', workouts || [])),
     );
 
   constructor(
     private readonly db: AngularFirestore,
     private readonly authService: AuthService,
-    private readonly store: Store
+    private readonly store: Store,
   ) {/** */}
 
   public getWorkoutById(workoutId: Workout['id']): Observable<Workout> {
@@ -51,8 +51,9 @@ export class WorkoutsService {
         filter(Boolean),
         map(
           (workouts: Workout[]) =>
-            workouts.find(workout => workout.id === workoutId)
-        )
+            workouts.find(workout => workout.id === workoutId),
+        ),
+        take(1),
       );
   }
 
@@ -74,7 +75,7 @@ export class WorkoutsService {
       .doc(workoutId)
       .set(
         { ...workout, lastEdit: Timestamp.now() },
-        { merge: true }
+        { merge: true },
       );
   }
 

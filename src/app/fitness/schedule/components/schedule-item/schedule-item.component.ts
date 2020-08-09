@@ -7,7 +7,7 @@ import { ScheduleItem } from '../../../shared/models/schedule.model';
   selector: 'ft-schedule-item',
   templateUrl: './schedule-item.component.html',
   styleUrls: ['./schedule-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScheduleItemComponent {
 

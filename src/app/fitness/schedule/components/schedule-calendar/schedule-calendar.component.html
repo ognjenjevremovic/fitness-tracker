@@ -1,12 +1,12 @@
 <section class="calendar">
   <ft-schedule-controls
     [selected]="selectedDay"
-    (move)="updateDate($event)">
+    (weekChange)="selectWeek($event)">
   </ft-schedule-controls>
 
   <ft-schedule-days
     [selected]="selectedDayIndex"
-    (select)="selectDay($event)">
+    (dayChange)="selectDay($event)">
   </ft-schedule-days>
 
   <ft-schedule-item
