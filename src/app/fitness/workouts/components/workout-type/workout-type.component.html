@@ -1,0 +1,9 @@
+<section class="workout-type">
+  <div class="workout-type__pane" *ngFor="let type of workoutTypes"
+    (click)="setWorkoutType(type)"
+    [class.active]="type === value">
+
+    <img [src]="'assets/img/' + type + '.svg'">
+    <p>{{ type }}</p>
+  </div>
+</section>

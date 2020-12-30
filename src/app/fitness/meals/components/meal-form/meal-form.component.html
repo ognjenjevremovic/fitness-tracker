@@ -1,0 +1,71 @@
+<section class="meal-form">
+  <form [formGroup]="mealForm">
+
+    <fieldset class="meal-form__name">
+      <label>
+        <h3>Meal name:</h3>
+        <input type="text" placeholder="e.g. English breakfast" formControlName="name">
+      </label>
+
+      <p class="error" *ngIf="mealNameRequired">
+        Meal name is required.
+      </p>
+    </fieldset>
+
+    <fieldset class="meal-form__food">
+      <div class="meal-form__subtitle">
+        <h3>Ingredients:</h3>
+        <button
+          type="button"
+          class="meal-form__add"
+          (click)="addIngredient()">
+          <img src="assets/img/add.svg"/>
+          Add ingredient
+        </button>
+      </div>
+
+      <fieldset formArrayName="ingredients">
+        <label *ngFor="let control of ingredients.controls; index as controlIndex">
+          <input type="text" placeholder="e.g. Bacon" [formControlName]="controlIndex">
+          <span class="meal-form__remove" (click)="removeIngredient(controlIndex)"></span>
+
+          <p class="error" *ngIf="ingredientNameRequired(controlIndex)">
+            Meal name is required.
+          </p>
+        </label>
+      </fieldset>
+    </fieldset>
+
+    <fieldset class="meal-form__submit">
+      <div>
+        <!-- Add new meal -->
+        <button
+          type="button" class="button"
+          *ngIf="!editingMeal"
+          (click)="createMeal($event)">Add meal
+        </button>
+
+        <!-- Update existing meal -->
+        <button type="button" class="button"
+          *ngIf="editingMeal"
+          (click)="updateMeal($event)">Update meal
+        </button>
+
+        <!-- Navigate back to meals and discard the changes -->
+        <a class="button button--cancel" routerLink="/meals">Cancel</a>
+      </div>
+
+      <!-- Remove meal -->
+      <div>
+        <ft-remove-item *ngIf="editingMeal" (remove)="deleteMeal()"
+          (toggleActions)="toggleActions.toggle()"
+          [showRemoveActions]="toggleActions.showRemoveActions">
+
+          <button type="button" class="button button--delete"
+            ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">Delete
+          </button>
+        </ft-remove-item>
+      </div>
+    </fieldset>
+  </form>
+</section>

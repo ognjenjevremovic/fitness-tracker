@@ -1,0 +1,9 @@
+<header class="app-header">
+  <div class="wrapper">
+    <h1>Fitness tracker</h1>
+
+    <section class="app-header__user-info" *ngIf="user?.authenticated">
+      <a (click)="logoutUser($event)"></a>
+    </section>
+  </div>
+</header>

@@ -1,0 +1,11 @@
+<section class="list-item__delete" *ngIf="showRemoveActions">
+  <p>Are you sure?</p>
+  <a type="button" class="confirm" (click)="removeItem($event)">
+    Yes
+  </a>
+  <a type="button" class="cancel" (click)="toggleRemoveActions($event)">
+    No
+  </a>
+</section>
+
+<ng-content select="button"></ng-content>

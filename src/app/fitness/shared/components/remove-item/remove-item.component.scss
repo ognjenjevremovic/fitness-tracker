@@ -1,0 +1,81 @@
+:host ::ng-deep {
+  display: flex;
+  align-items: center;
+
+  .trash {
+    @extend %button;
+    border-left: 1px solid #c1cedb;
+    padding: 10px 15px;
+    background: #f6fafd;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      background-color: darken(#f6fafd, 5%);
+    }
+  }
+
+  .delete {
+    @extend %button;
+    border-left: 1px solid #c1cedb;
+    padding: 10px 15px;
+    background: #d73a49;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      background-color: darken(#f6fafd, 5%);
+    }
+  }
+}
+
+.list-item__delete {
+  display: flex;
+  align-items: center;
+  margin: 0 10px 0 0;
+
+  p {
+    margin: 0 10px 0 0;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
+
+a {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px 20px;
+  font-weight: 400;
+  color: #545e6f;
+  font-size: 16px;
+}
+
+%button {
+  outline: 0;
+  cursor: pointer;
+  border: 0;
+}
+
+.confirm,
+.cancel {
+  @extend %button;
+  padding: 5px 10px;
+  margin: 0 0 0 5px;
+  font-size: 14px;
+}
+
+.confirm {
+  color: #fff;
+  background: #d73a49;
+  border-radius: 3px;
+  transition: all .2s ease-in-out;
+
+  &:hover {
+    background: darken(#d73a49, 5%);
+  }
+}
+
+.cancel {
+  background: transparent;
+}
+

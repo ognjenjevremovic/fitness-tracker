@@ -1,3 +1,6 @@
-<h1>Hello Fitness tracker!</h1>
+<ft-app-header [user]="user$ | async" (logout)="onLogout()"></ft-app-header>
+<ft-app-nav *ngIf="(user$ | async)?.authenticated"></ft-app-nav>
 
-<router-outlet></router-outlet>
+<main class="wrapper">
+  <router-outlet></router-outlet>
+</main>

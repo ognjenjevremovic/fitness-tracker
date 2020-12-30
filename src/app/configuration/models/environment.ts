@@ -1,6 +1,7 @@
-import { Configuration } from './configuration';
+import { FirebaseConfiguration } from './configuration';
+
 
 export interface Environment {
   production: boolean;
-  firebaseConfiguration: Configuration;
+  firebaseConfiguration: FirebaseConfiguration;
 }

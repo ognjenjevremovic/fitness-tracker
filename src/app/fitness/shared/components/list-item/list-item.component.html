@@ -1,0 +1,20 @@
+<section class="list-item">
+
+  <a (click)="navigateToItemDetails($event)">
+    <p class="list-item__name">{{ item.name }}</p>
+    <p class="list-item__subtitle">
+      <ng-content></ng-content>
+    </p>
+  </a>
+
+  <ft-remove-item
+    (remove)="removeItem()"
+    (toggleActions)="toggleActions.toggle()"
+    [showRemoveActions]="toggleActions.showRemoveActions">
+
+    <button type="button" class="trash"
+      ftToggleRemoveActions #toggleActions="ftToggleRemoveActions">
+      <img src="assets/img/remove.svg" />
+    </button>
+  </ft-remove-item>
+</section>

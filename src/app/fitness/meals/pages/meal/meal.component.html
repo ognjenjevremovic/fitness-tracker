@@ -1,0 +1,30 @@
+<section class="meal">
+  <section class="meal__title">
+    <h1>
+      <img src="assets/img/food.svg"/>
+      <span *ngIf="meal$ | async as meal; else loadingMealName">
+        {{ meal?.name ? 'Edit' : 'Create' }} meal
+      </span>
+
+      <ng-template #loadingMealName>
+        <span>Loading. . .</span>
+      </ng-template>
+    </h1>
+  </section>
+
+  <section class="meal__form">
+    <ft-meal-form *ngIf="meal$ | async as meal; else loadingMealData"
+      [meal]="meal"
+      (create)="addMeal($event)"
+      (update)="editMeal($event)"
+      (delete)="removeMeal()">
+    </ft-meal-form>
+  </section>
+
+  <ng-template #loadingMealData>
+    <div class="message">
+      <img src="assets/img/loading.svg">
+      Fetching meal data. . .
+    </div>
+  </ng-template>
+</section>

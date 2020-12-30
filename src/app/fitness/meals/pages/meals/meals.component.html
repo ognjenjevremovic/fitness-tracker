@@ -1,0 +1,35 @@
+<section class="meals">
+  <section class="meals__title">
+    <h1>
+      <img src="assets/img/food.svg"/>
+      Your meals
+    </h1>
+    <a class="btn__add" routerLink="/meals/new">
+      <img src="assets/img/add.svg">
+      Add new meal
+    </a>
+  </section>
+
+  <div *ngIf="meals$ | async as meals; else loading;">
+    <section class="message" *ngIf="!meals.length">
+      <img src="assets/img/face.svg">
+      No meals, add a new meal to start
+    </section>
+
+    <section *ngIf="meals.length">
+      <ft-list-item *ngFor="let meal of meals"
+        [item]="meal"
+        (navigate)="navigateToMealDetails(meal)"
+        (remove)="onMealRemove($event)">
+        {{ meal.ingredients | ingredients }}
+      </ft-list-item>
+    </section>
+  </div>
+
+  <ng-template #loading>
+    <section class="message">
+      <img src="assets/img/loading.svg">
+      Fetching meals. . .
+    </section>
+  </ng-template>
+</section>

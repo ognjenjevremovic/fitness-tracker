@@ -1,0 +1,12 @@
+<section class="register-form__wrapper">
+  <ft-auth-form (submitted)="registerUser($event)">
+    <h1>Register</h1>
+
+    <button type="submit">Register account</button>
+    <a routerLink="/auth/login">Already a member?</a>
+
+    <p class="error" *ngIf="authErrorMessage">
+      {{ authErrorMessage }}
+    </p>
+  </ft-auth-form>
+</section>
